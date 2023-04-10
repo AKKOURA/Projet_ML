@@ -1,12 +1,8 @@
 function afficherGraphe(graphId) {
   fetch('/graph' + graphId)
-    .then(response => response.blob())
-    .then(blob => {
-      const img = document.createElement('img');
-      img.src = URL.createObjectURL(blob);
-      const graphContainer = document.getElementById('graph-container');
-      graphContainer.innerHTML = ''; // Supprimer les anciennes images
-      graphContainer.appendChild(img);
+    .then(response => response.json())
+    .then(data => {
+      Plotly.newPlot('graph-container', data.data, data.layout);
     });
 }
 
@@ -18,4 +14,14 @@ graph1Btn.addEventListener('click', () => {
 const graph2Btn = document.getElementById('graph2-btn');
 graph2Btn.addEventListener('click', () => {
   afficherGraphe('2');
+});
+
+const graph3Btn = document.getElementById('graph3-btn');
+graph3Btn.addEventListener('click', () => {
+  afficherGraphe('3');
+});
+
+const graph4Btn = document.getElementById('graph4-btn');
+graph4Btn.addEventListener('click', () => {
+  afficherGraphe('4');
 });

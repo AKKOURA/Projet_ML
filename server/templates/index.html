@@ -2,11 +2,14 @@
 <html>
 <head>
     <title>Mon application Flask</title>
+    <script src="https://cdn.plot.ly/plotly-latest.min.js"></script>
 </head>
 <body>
-    <h1>Visualisation des données </h1>
-    <button id="graph1-btn">Afficher le graphe 1</button>
-    <button id="graph2-btn">Afficher le graphe 2</button>
+    <h1>Visualisation des données de la dermatologie </h1>
+    <button id="graph1-btn">Graphe 1</button>
+    <button id="graph2-btn">Graphe 2</button>
+    <button id="graph3-btn">Graphe 3</button>
+    <button id="graph4-btn">Graphe 4</button>
     <div id="graph-container"></div>
     <script src="{{ url_for('static', filename='script.js') }}"></script>
 </body>
