@@ -25,3 +25,8 @@ const graph4Btn = document.getElementById('graph4-btn');
 graph4Btn.addEventListener('click', () => {
   afficherGraphe('4');
 });
+
+const graph5Btn = document.getElementById('graph5-btn');
+graph5Btn.addEventListener('click', () => {
+  afficherGraphe('5');
+});

@@ -9,6 +9,7 @@ from plotly.graph_objs import *
 import json
 import plotly
 import plotly.graph_objs as go
+from plotly.offline import plot
 
 
 app = Flask(__name__)
@@ -140,6 +141,36 @@ def generate_graph4():
   fig_json = fig.to_json()
 
   return fig_json
+
+def generate_graph5():
+  # Sélectionner les 10 premières colonnes
+  df_corr = df.iloc[:, 0:10]
+
+  # Calculer la corrélation entre les colonnes
+  corr = df_corr.corr()
+  # Créer un heatmap
+  heatmap = go.Heatmap(
+      z=corr.values,
+      x=corr.columns,
+      y=corr.index,
+      colorscale='Viridis'
+  )
+
+  # Personnaliser l'apparence du graphique
+  layout = go.Layout(
+      title='Corrélation entre les symptômes et le type de maladie',
+      xaxis=dict(title='Symptômes'),
+      yaxis=dict(title='Type de maladie (classe)')
+  )
+
+  # Afficher le graphique dans le navigateur
+  fig = go.Figure(data=[heatmap], layout=layout)
+  
+  # Conversion de la figure en JSON
+  fig_json = fig.to_json()
+
+  return fig_json
+
 # Créez la route pour afficher le graphe 1
 @app.route('/graph1')
 def graph1():
@@ -162,6 +193,12 @@ def graph3():
 @app.route('/graph4')
 def graph4():
   fig = generate_graph4()
+  return fig
+
+# Créez la route pour afficher le graphe 3
+@app.route('/graph5')
+def graph5():
+  fig = generate_graph5()
   return fig
 
 # Créez la route pour la page d'accueil
