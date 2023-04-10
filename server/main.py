@@ -125,11 +125,11 @@ def generate_graph4():
                       xaxis=dict(title="Classe de maladie"),
                       yaxis=dict(title="Nombre de patients"),
                       annotations=[
-                       dict(x=0.5,
-                            y=1.1,
+                       dict(x=0.6,
+                            y=1.2,
                             xref='paper',
                             yref='paper',
-                            text="Ce graphique présente les classes de maladies les plus héréditaires parmi les patients étudiés. Nous pouvons voir que Psoriasis est la maladie la plus hériditaire, avec un nombre de patients significativement plus élevé que les autres classes.",
+                            text="Ce graphique présente les classes de maladies les plus héréditaires parmi les patients étudiés. <br> Nous pouvons voir que Psoriasis est la maladie la plus hériditaire, avec un nombre de patients significativement plus élevé.",
                             showarrow=False)
                    ])
 
