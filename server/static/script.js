@@ -1,9 +1,26 @@
 function afficherGraphe(graphId) {
-  fetch('/graph' + graphId)
-    .then(response => response.json())
-    .then(data => {
-      Plotly.newPlot('graph-container', data.data, data.layout);
-    });
+  var maladies = [];
+  var checkboxes = document.querySelectorAll('input[type=checkbox]:checked');
+
+  for (var i = 0; i < checkboxes.length; i++) {
+    maladies.push(checkboxes[i].value);
+  }
+
+  console.log(JSON.stringify({maladies : maladies}))
+
+  fetch('/graph' + graphId, {
+    method: 'POST',
+    headers: {
+      'Content-Type': 'application/json'
+    },
+    body: JSON.stringify({maladies : maladies})
+  })
+  .then(function(response) {
+    return response.json();
+  })
+  .then(data => {
+    Plotly.newPlot('graph-container', data.data, data.layout);
+  });
 }
 
 const graph1Btn = document.getElementById('graph1-btn');
