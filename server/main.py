@@ -10,6 +10,9 @@ import json
 import plotly
 import plotly.graph_objs as go
 from plotly.offline import plot
+import plotly.express as px
+from plotly.subplots import make_subplots
+
 
 
 app = Flask(__name__)
@@ -62,169 +65,78 @@ def generate_graph1():
 
 
 def generate_graph2():
+   # Charger vos données dans un dataframe
+    data = request.get_json()
+    maladies = data.get('maladies')
+    df = pd.read_csv("data/dermatology_csv.csv")
+    df = df[df['class'].isin(map(int, maladies))]
+    df = df.replace({'class': correspondance_classes})
 
-  # Charger vos données dans un dataframe
-  data = request.get_json()
-  maladies = data.get('maladies')
-  df = pd.read_csv("data/dermatology_csv.csv")
-  df = df[df['class'].isin(map(int, maladies))]
+    # Créer le graphique
+    fig = px.scatter(df, x='class', y='age', color='class')
 
-  # Données du graphe
-  data = []
-  for i in range(1, 7):
-      trace = go.Histogram(x=df[df['class']==i]['age'], nbinsx=20, name=correspondance_classes[i].format(i), opacity=0.5, cumulative=dict(enabled=True))
-      data.append(trace)
+    # Personnaliser le graphique
+    fig.update_layout(title_text="La relation entre l'âge et les maladies séléctionnées",
+                      xaxis_title_text="Maladie",
+                      yaxis_title_text="Âge")
 
-  # Mise en forme du graphe
-  layout = go.Layout(title="Répartition des âges par le type de la maladie (classe)",
-                    xaxis=dict(title="Âge"),
-                    yaxis=dict(title="Fréquence cumulée"),
-                    annotations=[
-                        dict(x=0.5,
-                              y=1.1,
-                              xref='paper',
-                              yref='paper',
-                              text="Ce graphe montre comment les patients sont répartis selon leur âge pour chaque type de maladie de peaux (ou classe) présente dans le dataset.",
-                              showarrow=False)
-                    ])
+    # Convertir la figure en JSON
+    fig_json = fig.to_json()
 
-  # Création de la figure
-  fig = go.Figure(data=data, layout=layout)
+    return fig_json
 
-  # Conversion de la figure en JSON
-  fig_json = fig.to_json()
-
-  return fig_json
 
 def generate_graph3():
     data = request.get_json()
     maladies = data.get('maladies')
     df = pd.read_csv("data/dermatology_csv.csv")
     df = df[df['class'].isin(map(int, maladies))]
-    
-    # Obtenir les 10 symptômes les plus courants
-    top_symptomes = df.drop('class', axis=1).sum().sort_values(ascending=False).head(10)
-    top_symptomes_cumulative = top_symptomes.cumsum()
-    
-    # Créer les données pour le graphe
-    data = [Bar(x=top_symptomes_cumulative.index, y=top_symptomes_cumulative.values, name='Cumulative', marker_color='rgb(158,202,225)'),
-            Bar(x=top_symptomes.index, y=top_symptomes.values-top_symptomes_cumulative.values, name='Non-cumulative', marker_color='rgb(255,255,204)')]
 
+    
+    # Obtenir les symptômes ayant une valeur de 3 pour chaque maladie
+    symptomes = []
+    colors = []
+    for i, maladie in enumerate(maladies):
+        symptomes_maladie = df[df['class'] == int(maladie)].iloc[:, :-2]
+        symptomes_maladie = symptomes_maladie[symptomes_maladie.eq(3)].stack().reset_index()
+        symptomes_maladie.columns = ['index', 'symptome', 'value']
+        symptomes_maladie = symptomes_maladie.drop(['index', 'value'], axis=1)
+        symptomes_maladie = symptomes_maladie.drop_duplicates()
+        symptomes_maladie['color'] = f'rgb({i*50}, {i*70}, {i*90})'
+        symptomes.append(symptomes_maladie['symptome'])
+        colors.append(symptomes_maladie['color'][0])
+
+    # Créer les données pour chaque maladie
+    fig = make_subplots(rows=len(maladies), cols=1, shared_xaxes=True, vertical_spacing=0.05)
+    for i, maladie in enumerate(maladies):
+        top_symptomes = df[df['class'] == int(maladie)].iloc[:, :-2][symptomes[i]].sum().sort_values(ascending=False)
+        data = [Bar(x=top_symptomes.index, y=top_symptomes.values, name=f"{correspondance_classes[int(maladie)]}", marker_color=colors[i])]
+        fig.add_traces(data, rows=[i+1], cols=[1])
+        
     # Mise en forme du graphe
-    layout = Layout(title=f"Les symptômes les plus courants",
-                    xaxis=dict(title="Symptômes"),
-                    yaxis=dict(title="Fréquence cumulée"),
-                    barmode='stack',
-                    annotations=[
-                        dict(x=0.5,
-                             y=1.1,
-                             xref='paper',
-                             yref='paper',
-                             text="Ce graphe montre les 10 symptômes les plus courants pour les maladies sélectionnées en fréquence cumulée.",
-                             showarrow=False)
-                    ])
-
-    # Création de la figure
-    fig = go.Figure(data=data, layout=layout)
-
+    fig.update_layout(title=f"Symptômes avec une forte présence pour chaque maladie",
+                      xaxis=dict(title="Symptômes"),
+                      yaxis=dict(title="Fréquence"),
+                      height=600,
+                      showlegend=True,
+                      annotations=[
+                          dict(x=0.5,
+                               y=1.1,
+                               xref='paper',
+                               yref='paper',
+                               text="Ce graphe montre les symptômes ayant une forte présence pour chaque maladie sélectionnée.",
+                               showarrow=False)
+                      ])
+    
     # Conversion de la figure en JSON
     fig_json = fig.to_json()
 
     return fig_json
 
 
-# def generate_graph3():
-#   # Données du graphe
-#   data = [Bar(x=df['family_history'].unique(),
-#               y=df.groupby('family_history')['class'].count().values)]
 
-#   # Mise en forme du graphe
-#   layout = Layout(title="Le nombre de personnes avec antécédents familiaux par classe",
-#                   xaxis=dict(title="Antécédents familiaux"),
-#                   yaxis=dict(title="Nombre de personnes"),
-#                   annotations=[
-#                        dict(x=0.5,
-#                             y=1.1,
-#                             xref='paper',
-#                             yref='paper',
-#                             text="Ce graphe montre le nombre de personnes ayant des antécédents familiaux pour chaque classe de maladie, permettant ainsi de déterminer les classes de maladies les plus héréditaires.",
-#                             showarrow=False)
-#                    ])
+# def generate_graph4():
 
-#   # Création de la figure
-#   fig = Figure(data=data, layout=layout)
-
-#   # Conversion de la figure en JSON
-#   fig_json = json.dumps(fig, cls=plotly.utils.PlotlyJSONEncoder)
-
-#   return fig_json
-
-def generate_graph4():
-  # Trouver les classes de maladies les plus héréditaires
-  hereditary_diseases = df[df['family_history'] == 1]['class']
-  counts = hereditary_diseases.value_counts().sort_values(ascending=False)
-
-  # Remplacer les codes de classes par leur correspondance
-  counts.index = counts.index.map(correspondance_classes.get)
-
-  # Données du graphe
-  data = [go.Bar(x=counts.index, y=counts.values)]
-
-  # Mise en forme du graphe
-  layout = go.Layout(title="Classes de maladies les plus héréditaires",
-                      xaxis=dict(title="Classe de maladie"),
-                      yaxis=dict(title="le nombre de cas"),
-                      annotations=[
-                       dict(x=0.6,
-                            y=1.2,
-                            xref='paper',
-                            yref='paper',
-                            text="Ce graphique présente les classes de maladies les plus héréditaires parmi les patients étudiés. <br> Nous pouvons voir que Psoriasis est la maladie la plus hériditaire, avec un nombre de patients significativement plus élevé.",
-                            showarrow=False)
-                   ])
-
-  # Création de la figure
-  fig = go.Figure(data=data, layout=layout)
-
-  # Conversion de la figure en JSON
-  fig_json = fig.to_json()
-
-  return fig_json
-
-def generate_graph5():
-  # Sélectionner les 10 premières colonnes
-  df_corr = df.iloc[:, 0:10]
-
-  # Calculer la corrélation entre les colonnes
-  corr = df_corr.corr()
-  # Créer un heatmap
-  heatmap = go.Heatmap(
-      z=corr.values,
-      x=corr.columns,
-      y=corr.index,
-      colorscale='Viridis'
-  )
-
-  # Personnaliser l'apparence du graphique
-  layout = go.Layout(
-      title='Corrélation entre les symptômes et le type de maladie',
-      xaxis=dict(title='Symptômes'),
-      yaxis=dict(title='Type de maladie (classe)')
-  )
-
-  # Afficher le graphique dans le navigateur
-  fig = go.Figure(data=[heatmap], layout=layout)
-  
-  # Conversion de la figure en JSON
-  fig_json = fig.to_json()
-
-  return fig_json
-  # Cette fonction affichera un heatmap avec la corrélation entre les symptômes et le type de maladie.
-  #  Les valeurs de corrélation varient entre -1 et 1, et sont indiquées par une échelle de couleurs. 
-  #  Les valeurs positives indiquent une corrélation positive entre les symptômes et le type de maladie, 
-  # tandis que les valeurs négatives indiquent une corrélation négative.
-
-# Créez la route pour afficher le graphe 1
 @app.route('/graph1', methods=['POST'])
 def graph1():
   fig_json = generate_graph1()
@@ -243,13 +155,13 @@ def graph3():
   return fig
 
 # Créez la route pour afficher le graphe 3
-@app.route('/graph4')
+@app.route('/graph3', methods=['POST'])
 def graph4():
   fig = generate_graph4()
   return fig
 
 # Créez la route pour afficher le graphe 3
-@app.route('/graph5')
+@app.route('/graph5', methods=['POST'])
 def graph5():
   fig = generate_graph5()
   return fig
