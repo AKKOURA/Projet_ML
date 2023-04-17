@@ -63,7 +63,6 @@ def generate_graph1():
 
     return fig_json
 
-
 def generate_graph2():
    # Charger vos données dans un dataframe
     data = request.get_json()
@@ -72,13 +71,17 @@ def generate_graph2():
     df = df[df['class'].isin(map(int, maladies))]
     df = df.replace({'class': correspondance_classes})
 
-    # Créer le graphique
-    fig = px.scatter(df, x='class', y='age', color='class')
+    # Calculer le nombre de personnes pour chaque combinaison "classe, âge"
+    count_df = df.groupby(['class', 'age']).size().reset_index(name='count')
+
+    # Créer le graphique en utilisant le dataframe avec les comptes
+    fig = px.scatter(count_df, x='class', y='age', color='class', size='count', hover_name='class', hover_data={'age': True, 'count': True})
 
     # Personnaliser le graphique
-    fig.update_layout(title_text="La relation entre l'âge et les maladies séléctionnées",
+    fig.update_layout(title_text="Le nombre de personnes ayant chaque maladie pour chaque âge",
                       xaxis_title_text="Maladie",
-                      yaxis_title_text="Âge")
+                      yaxis_title_text="Âge",
+                      hoverlabel=dict(namelength=0))
 
     # Convertir la figure en JSON
     fig_json = fig.to_json()
