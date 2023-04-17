@@ -8,6 +8,7 @@ function afficherGraphe(graphId) {
 
   console.log(JSON.stringify({maladies : maladies}))
 
+
   fetch('/graph' + graphId, {
     method: 'POST',
     headers: {
@@ -21,6 +22,19 @@ function afficherGraphe(graphId) {
   .then(data => {
     Plotly.newPlot('graph-container', data.data, data.layout);
   });
+}
+
+function loadPage() {
+  // Sélectionne toutes les cases à cocher et les coche
+  var checkboxes = document.getElementsByName("class-select");
+  for (var i = 0; i < checkboxes.length; i++) {
+    checkboxes[i].checked = true;
+  } 
+  afficherGraphe('1'); 
+  for (var i = 0; i < checkboxes.length; i++) {
+    checkboxes[i].checked = false;
+  } 
+
 }
 
 const graph1Btn = document.getElementById('graph1-btn');

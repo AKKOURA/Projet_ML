@@ -5,7 +5,7 @@
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css">
     <script src="https://cdn.plot.ly/plotly-latest.min.js"></script>
 </head>
-<body>
+<body onload="loadPage()">
     <nav class="navbar navbar-expand-lg navbar-light bg-light">
         <a class="navbar-brand" href="#">Flask application</a>
         <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
@@ -29,19 +29,19 @@
         <label for="class-select">Sélectionnez les types de maladies de peaux:</label>
         <div>
           <label>
-            <input type="checkbox" name="class-select" value=1> Psoriasis
+            <input type="checkbox" name="class-select" value=1 checked> Psoriasis
           </label>
           <label>
-            <input type="checkbox" name="class-select" value=2> Seboreic dermatitis
+            <input type="checkbox" name="class-select" value=2 checked> Seboreic dermatitis
           </label>
           <label>
-            <input type="checkbox" name="class-select" value=3> Lichen Planus
+            <input type="checkbox" name="class-select" value=3 checked> Lichen Planus
           </label>
           <label>
-            <input type="checkbox" name="class-select" value=4> Pityriasis rosea
+            <input type="checkbox" name="class-select" value=4 checked> Pityriasis rosea
           </label>
           <label>
-            <input type="checkbox" name="class-select" value=5> Cronic Dermatitis
+            <input type="checkbox" name="class-select" value=5 checked> Cronic Dermatitis
           </label>
           <label>
             <input type="checkbox" name="class-select" value=6> pityriasis rubra pilaris
@@ -52,7 +52,6 @@
         <button id="graph2-btn" class="btn btn-primary">Graphe 2</button>
         <button id="graph3-btn" class="btn btn-primary">Graphe 3</button>
         <button id="graph4-btn" class="btn btn-primary">Graphe 4</button>
-        <button id="graph5-btn" class="btn btn-primary">Graphe 5</button>
         <div id="graph-container"></div>
     </div>
     <script src="{{ url_for('static', filename='script.js') }}"></script>
