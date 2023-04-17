@@ -54,7 +54,7 @@ def generate_graph1():
                             text="Ce graphe montre le nombre de patients par type de maladie (ou classe) présente dans le dataset. Cela permet d'observer la répartition des patients selon le type de maladie.",
                             showarrow=False)
                    ])
-    
+
     # Création de la figure
     fig = go.Figure(data=data, layout=layout)
 
@@ -133,9 +133,84 @@ def generate_graph3():
 
     return fig_json
 
+ # def generate_graph4():
+def generate_graph4():
+    # Charger vos données dans un dataframe
+    data = request.get_json()
+    maladies = data.get('maladies')
+    df = pd.read_csv("data/dermatology_csv.csv")
+    df = df[df['class'].isin(map(int, maladies))]
 
+    # Trouver le nombre de cas avec antécédents familiaux
+    hereditary_cases = df[df['family_history'] == 1].shape[0]
+    # Trouver le nombre de cas sans antécédents familiaux
+    non_hereditary_cases = df[df['family_history'] == 0].shape[0]
 
-# def generate_graph4():
+    # Calculer les pourcentages d'hérédité et de non-hérédité
+    total_cases = hereditary_cases + non_hereditary_cases
+    hereditary_percentage = hereditary_cases / total_cases * 100
+    non_hereditary_percentage =  100 - hereditary_percentage
+
+    # Données du graphe
+    labels = ['Héréditaire', 'Non-héréditaire']
+    values = [hereditary_percentage, non_hereditary_percentage]
+    colors = ['rgb(255, 127, 14)', 'rgb(31, 119, 180)']
+    data = [Pie(labels=labels, values=values, marker=dict(colors=colors))]
+
+    # Mise en forme du graphe
+    layout = Layout(title="Pourcentage de personne qui ont eu la maladie de manière héréditaire",
+                    annotations=[
+                       dict(x=0.5,
+                            y=1.1,
+                            xref='paper',
+                            yref='paper',
+                            text="Ce graphique en camembert montre le pourcentage de personne ayant eu la maladie sélectionnée de manière héréditaire ou non. Cela permet d'observer la proportion de cas de maladies qui sont hériditaires parmi les patients étudiés.",
+                            showarrow=False)
+                   ])
+
+    # Création de la figure
+    fig = go.Figure(data=data, layout=layout)
+
+    # Conversion de la figure en JSON
+    fig_json = fig.to_json()
+
+    return fig_json
+
+def generate_graph5():
+    # Charger vos données dans un dataframe
+    data = request.get_json()
+    maladies = data.get('maladies')
+    df = pd.read_csv("data/dermatology_csv.csv")
+    df = df[df['class'].isin(map(int, maladies))]
+
+    # Trouver les pourcentages d'hérédité des maladies sélectionnées
+    hereditary_counts = df[df['family_history'] == 1]['class'].value_counts(normalize=True).sort_values(ascending=False) * 100
+
+    # Remplacer les codes de classes par leur correspondance
+    hereditary_counts.index = hereditary_counts.index.map(correspondance_classes.get)
+
+    # Données du graphe
+    data = [go.Pie(labels=hereditary_counts.index, values=hereditary_counts.values)]
+
+    # Mise en forme du graphe
+    layout = go.Layout(title="comparaison du pourcentage d'hérédité des maladies sélectionnées",
+                       annotations=[
+                           dict(x=0.5,
+                                y=1.1,
+                                xref='paper',
+                                yref='paper',
+                                text="Ce graphe montre le pourcentage d'hérédité des maladies sélectionnées. Cela permet d'observer la prédisposition génétique des patients à ces maladies.",
+                                showarrow=False)
+                       ])
+
+    # Création de la figure
+    fig = go.Figure(data=data, layout=layout)
+
+    # Conversion de la figure en JSON
+    fig_json = fig.to_json()
+
+    return fig_json
+
 
 @app.route('/graph1', methods=['POST'])
 def graph1():
@@ -155,12 +230,12 @@ def graph3():
   return fig
 
 # Créez la route pour afficher le graphe 3
-@app.route('/graph3', methods=['POST'])
+@app.route('/graph4', methods=['POST'])
 def graph4():
   fig = generate_graph4()
   return fig
 
-# Créez la route pour afficher le graphe 3
+# Créez la route pour afficher le graphe 5
 @app.route('/graph5', methods=['POST'])
 def graph5():
   fig = generate_graph5()
