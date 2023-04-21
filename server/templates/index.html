@@ -48,10 +48,14 @@
           </label>
         </div>
         <br>
-        <button id="graph1-btn" class="btn btn-primary">Graphe 1</button>
-        <button id="graph2-btn" class="btn btn-primary">Graphe 2</button>
-        <button id="graph3-btn" class="btn btn-primary">Graphe 3</button>
-        <button id="graph4-btn" class="btn btn-primary">Graphe 4</button>
+        <P> <b>Vous pouvez analyser ces maladies selon des critères : <b></P>
+        <button id="graph1-btn" class="btn btn-primary">Patients </button>
+        <button id="graph2-btn" class="btn btn-primary">Âges</button>
+        <!-- <button id="graph3-btn" class="btn btn-primary">corrélation Symptômes</button> -->
+        <button id="graph6-btn" class="btn btn-primary">Clustering Symptômes</button>
+        <button id="graph7-btn" class="btn btn-primary">% Symptômes</button>
+        <!-- <button id="graph4-btn" class="btn btn-primary">Hérédité1</button> -->
+        <button id="graph5-btn" class="btn btn-primary">Hérédité</button>
         <div id="graph-container"></div>
     </div>
     <script src="{{ url_for('static', filename='script.js') }}"></script>

@@ -6,9 +6,6 @@ function afficherGraphe(graphId) {
     maladies.push(checkboxes[i].value);
   }
 
-  console.log(JSON.stringify({maladies : maladies}))
-
-
   fetch('/graph' + graphId, {
     method: 'POST',
     headers: {
@@ -47,17 +44,27 @@ graph2Btn.addEventListener('click', () => {
   afficherGraphe('2');
 });
 
-const graph3Btn = document.getElementById('graph3-btn');
-graph3Btn.addEventListener('click', () => {
-  afficherGraphe('3');
-});
+// const graph3Btn = document.getElementById('graph3-btn');
+// graph3Btn.addEventListener('click', () => {
+//   afficherGraphe('3');
+// });
 
-const graph4Btn = document.getElementById('graph4-btn');
-graph4Btn.addEventListener('click', () => {
-  afficherGraphe('4');
-});
+// const graph4Btn = document.getElementById('graph4-btn');
+// graph4Btn.addEventListener('click', () => {
+//   afficherGraphe('4');
+// });
 
 const graph5Btn = document.getElementById('graph5-btn');
 graph5Btn.addEventListener('click', () => {
   afficherGraphe('5');
+});
+
+const graph6Btn = document.getElementById('graph6-btn');
+graph6Btn.addEventListener('click', () => {
+  afficherGraphe('6');
+});
+
+const graph7Btn = document.getElementById('graph7-btn');
+graph7Btn.addEventListener('click', () => {
+  afficherGraphe('7');
 });
