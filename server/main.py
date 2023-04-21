@@ -54,7 +54,7 @@ def generate_graph1():
                             y=1.1,
                             xref='paper',
                             yref='paper',
-                            text="Ce graphe montre le nombre de patients par type de maladie (ou classe) présente dans le dataset. Cela permet d'observer la répartition des patients selon le type de maladie.",
+                            text="Ce graphe montre le nombre de patients par type de maladie (ou classe) présente dans le dataset.",
                             showarrow=False)
                    ])
 
@@ -256,7 +256,7 @@ def generate_graph4():
                             y=1.1,
                             xref='paper',
                             yref='paper',
-                            text="Ce graphique en camembert montre le pourcentage de personne ayant eu la maladie sélectionnée de manière héréditaire ou non. Cela permet d'observer la proportion de cas de maladies qui sont hériditaires parmi les patients étudiés.",
+                            text="Ce graphique en camembert montre le pourcentage de personne ayant eu la maladie sélectionnée de manière héréditaire ou non.",
                             showarrow=False)
                    ])
 
@@ -291,7 +291,7 @@ def generate_graph5():
                                 y=1.1,
                                 xref='paper',
                                 yref='paper',
-                                text="Ce graphe montre le pourcentage d'hérédité des maladies sélectionnées. Cela permet d'observer la prédisposition génétique des patients à ces maladies.",
+                                text="Ce graphe montre le pourcentage d'hérédité des maladies sélectionnées.",
                                 showarrow=False)
                        ])
 
