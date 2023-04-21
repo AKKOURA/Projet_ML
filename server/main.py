@@ -103,55 +103,58 @@ def get_symptomes_colors(symptomes):
   return symptomes_colors
 
 def generate_graph3():
-  data = request.get_json()
-  maladies = data.get('maladies')
-  df = pd.read_csv("data/dermatology_csv.csv")
-  df = df[df['class'].isin(map(int, maladies))]
-  # Créer une matrice de corrélation pour les symptômes
-  corr_matrix = df.iloc[:, :-2].corr()
+        # Récupérer les données de la requête JSON
+        data = request.get_json()
+        maladies = data.get('maladies') # Liste des maladies sélectionnées
 
-  # Créer le graphe pour chaque maladie sélectionnée
-  figs = []
-  for maladie in maladies:
-      maladie = int(maladie)
-      # Sélectionner les symptômes pour la maladie
-      symptomes_maladie = df[df['class'] == maladie].iloc[:, :-2]
+        # Charger le jeu de données
+        df = pd.read_csv("data/dermatology_csv.csv")
 
-      # Ajouter les couleurs pour les symptômes
-      symptomes_maladie_colors = get_symptomes_colors(symptomes_maladie)
-        
-      # Créer la matrice de corrélation pour la maladie sélectionnée
-      corr_matrix_maladie = symptomes_maladie_colors.corr()
+        # Filtrer les maladies sélectionnées
+        df = df[df['class'].isin(map(int, maladies))]
+        df = df.replace({'class': correspondance_classes})
 
-      # Créer le graphe
-      fig = go.Figure()
+        # Sélectionner les colonnes de symptômes
+        cols_symptoms = df.iloc[:, :-2]
 
-      # Ajouter les boules de couleur pour chaque symptôme
-      for i, symptome in enumerate(symptomes_maladie.columns):
-          for j, symptome2 in enumerate(symptomes_maladie.columns):
-              fig.add_trace(go.Scatter(
-                  x=[symptome],
-                  y=[symptome2],
-                  mode='markers',
-                  marker=dict(size=50, color=symptomes_maladie_colors.iloc[i, j]),
-                  showlegend=False
-              ))
+        # Calculer la matrice de corrélation pour chaque maladie
+        figs = []
+        for maladie in maladies:
+            maladie_df = cols_symptoms[df['class'] == maladie]
+            corr_matrix = maladie_df.corr()
 
-      # Mise en forme du graphe
-      fig.update_layout(
-          title=f"Corrélation des symptômes pour la maladie : {correspondance_classes[int(maladie)]}",
-          xaxis=dict(title="Symptômes"),
-          yaxis=dict(title="Symptômes"),
-          height=600,
-          margin=dict(l=50, r=50, b=100, t=100, pad=4),
-          plot_bgcolor='rgba(0, 0, 0, 0)'
-      )
-      
-      # Ajouter la figure à la liste des figures
-      figs.append(fig)
+            # Créer le heatmap pour la matrice de corrélation
+            fig_heatmap = px.imshow(corr_matrix, labels=dict(x="Symptômes", y="Symptômes"),
+                                    x=maladie_df.columns, y=maladie_df.columns)
+            fig_heatmap.update_layout(title_text=f"Corrélation des symptômes pour la maladie : {correspondance_classes[int(maladie)]}")
 
-  # Retourner la liste des figures en format JSON
-  return [fig.to_json() for fig in figs]
+            # Normaliser les données
+            scaler = StandardScaler()
+            X = scaler.fit_transform(maladie_df)
+
+            # Effectuer l'ACP pour réduire la dimensionnalité des données
+            pca = PCA(n_components=2)
+            X_pca = pca.fit_transform(X)
+
+            # Ajouter les données d'étiquette de maladie et créer le graphe
+            maladie_df['class'] = maladie_df['class'].astype(str)
+            fig_scatter = px.scatter(maladie_df, x=X_pca[:,0], y=X_pca[:,1], color='class',
+                                     hover_data=maladie_df.columns, title=f"ACP pour la maladie : {correspondance_classes[int(maladie)]}")
+
+            # Personnaliser le graphe
+            fig_scatter.update_layout(xaxis_title_text="Composante principale 1",
+                                      yaxis_title_text="Composante principale 2",
+                                      height=400, width=400)
+
+            figs.append(fig_heatmap)
+            figs.append(fig_scatter)
+
+        # Convertir la figure en JSON
+        figs_json = [fig.to_json() for fig in figs]
+
+        return figs_json
+
+
 
   
 
@@ -301,44 +304,52 @@ def generate_graph5():
     return fig_json
 
 def generate_graph7():
-  # Récupérer les données de la requête JSON
-  data = request.get_json()
-  maladies = data.get('maladies') # Liste des maladies sélectionnées
+    # Récupérer les données de la requête JSON
+    data = request.get_json()
+    maladies = data.get('maladies') # Liste des maladies sélectionnées
 
-  # Obtenir les symptômes ayant une valeur de 3 pour chaque maladie
-  symptomes = []
-  colors = ['rgb(44, 160, 101)', 'rgb(255, 65, 54)', 'rgb(255, 133, 27)', 'rgb(22, 96, 167)']
-  for i, maladie in enumerate(maladies):
-      symptomes_maladie = df[df['class'] == int(maladie)].iloc[:, :-2]
-      symptomes_maladie = symptomes_maladie[symptomes_maladie.eq(3)].stack().reset_index()
-      symptomes_maladie.columns = ['index', 'symptome', 'value']
-      symptomes_maladie = symptomes_maladie.drop(['index', 'value'], axis=1)
-      symptomes_maladie = symptomes_maladie.drop_duplicates()
-      symptomes_maladie['color'] = colors[i]
-      symptomes.append(symptomes_maladie['symptome'])
-      colors.append(symptomes_maladie['color'][0])
+    # Charger le jeu de données
+    df = pd.read_csv("data/dermatology_csv.csv")
 
-  # Créer les données pour chaque maladie
-  fig = make_subplots(rows=len(maladies), cols=1, shared_xaxes=True, vertical_spacing=0.05)
-  for i, maladie in enumerate(maladies):
-      top_symptomes = df[df['class'] == int(maladie)].iloc[:, :-2][symptomes[i]].sum().sort_values(ascending=False)
-      top_symptomes_percent = (top_symptomes/top_symptomes.sum())*100
-      data = [Bar(x=top_symptomes.index, y=top_symptomes.values, name=f"{correspondance_classes[int(maladie)]}", marker_color=colors[i], 
-                  text=top_symptomes_percent.round(2).astype(str) + '%',
-                  textposition='auto')]
-      fig.add_traces(data, rows=[i+1], cols=[1])
+    # Obtenir les symptômes ayant une valeur de 3 pour chaque maladie
+    symptomes = []
+    colors = ['rgb(44, 160, 101)', 'rgb(255, 65, 54)', 'rgb(255, 133, 27)', 'rgb(22, 96, 167)']
+    for i, maladie in enumerate(maladies):
+        symptomes_maladie = df[df['class'] == int(maladie)].iloc[:, :-2]
+        symptomes_maladie = symptomes_maladie[symptomes_maladie.eq(3)].stack().reset_index()
+        symptomes_maladie.columns = ['index', 'symptome', 'value']
+        symptomes_maladie = symptomes_maladie.drop(['index', 'value'], axis=1)
+        symptomes_maladie = symptomes_maladie.drop_duplicates()
+        symptomes_maladie['color'] = colors[i]
+        symptomes.append(symptomes_maladie['symptome'])
+        colors.append(symptomes_maladie['color'][0])
 
-  # Mise en forme du graphe
-  fig.update_layout(title=f"Symptômes avec une forte présence pour chaque maladie",
-                    yaxis=dict(title="Fréquence", range=[0, 300]),
-                    height=600,
-                    showlegend=True)
+    # Créer les données pour chaque maladie
+    fig = make_subplots(rows=len(maladies), cols=1, shared_xaxes=True, vertical_spacing=0.05)
+    for i, maladie in enumerate(maladies):
+        symptomes_maladie = df[df['class'] == int(maladie)][symptomes[i]].sum(axis=1)
+        n_patients = symptomes_maladie.count()
+        top_symptomes = symptomes_maladie[symptomes_maladie > 0].value_counts(normalize=True)
+        top_symptomes_percent = top_symptomes * 100
+        top_symptomes_percent = top_symptomes_percent.rename(lambda x: f"{x} ({top_symptomes[x]:.0f}/{n_patients})")
+        data = [Bar(x=symptomes[i], y=top_symptomes_percent.values, name=f"{correspondance_classes[int(maladie)]}", marker_color=colors[i],
+                    text=top_symptomes_percent.round(2).astype(str) + '%',
+                    textposition='auto')]
+        fig.add_traces(data, rows=[i+1], cols=[1])
 
-  # Conversion de la figure en JSON
-  fig_json = fig.to_json()
+    # Mise en forme du graphe
+    fig.update_layout(title=f"Symptômes les plus fréquents pour chaque maladie",
+                      xaxis=dict(title=""),
+                      yaxis=dict(title="% de patients"),
+                      height=600,
+                      showlegend=True)
 
-  # Retourner le JSON
-  return fig_json
+    # Conversion de la figure en JSON
+    fig_json = fig.to_json()
+
+    # Retourner le JSON
+    return fig_json
+
 
 @app.route('/graph1', methods=['POST'])
 def graph1():
