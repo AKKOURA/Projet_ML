@@ -26,6 +26,12 @@
         <h2 class="text-center">Visualisation des données de la dermatologie </h2>
         <br>
         <br>
+        <label for="class-select">Télécharger une image</label>
+          <form action="/upload-image" method="post" enctype="multipart/form-data">
+            <input type="file" name="image"> <input type="submit" value="Télécharger">
+          </form>
+          <br>
+          <br>
         <label for="class-select">Sélectionnez les types de maladies de peaux:</label>
         <div>
           <label>
