@@ -17,6 +17,7 @@ from sklearn.cluster import KMeans
 from sklearn.preprocessing import StandardScaler
 import plotly.subplots as sp
 from sklearn.decomposition import PCA
+from werkzeug.utils import secure_filename
 
 
 app = Flask(__name__)
@@ -404,6 +405,38 @@ def form():
 @app.route('/statistique')
 def analyse():
     return render_template('statistique.html')
+
+
+# Définir les types de fichiers autorisés
+ALLOWED_EXTENSIONS = {'png', 'jpg', 'jpeg'}
+
+# Vérifier si l'extension du fichier est autorisée
+def allowed_file(filename):
+    return '.' in filename and \
+           filename.rsplit('.', 1)[1].lower() in ALLOWED_EXTENSIONS
+
+# Créer une route pour télécharger des images
+@app.route('/upload-image', methods=['POST'])
+def upload_image():
+    # Vérifier si un fichier a été envoyé
+    if 'image' not in request.files:
+        return 'No file uploaded', 400
+    
+    # Récupérer le fichier envoyé
+    file = request.files['image']
+
+    # Vérifier si le nom de fichier est valide
+    if file.filename == '':
+        return 'No selected file', 400
+    if not allowed_file(file.filename):
+        return 'Invalid file type', 400
+
+    # Enregistrer le fichier sur le serveur
+    filename = secure_filename(file.filename)
+    file.save('C:/Users/33766/Desktop/' + filename)
+
+    # Retourner une réponse HTTP avec le nom de fichier
+    return 'File uploaded successfully', 200
 
 if __name__ == '__main__':
     app.run(debug=True)
