@@ -1,4 +1,5 @@
 from flask import Flask, Response, render_template, request
+from flask_bootstrap import Bootstrap
 import seaborn as sns
 import matplotlib.pyplot as plt
 from io import BytesIO
@@ -19,6 +20,7 @@ from sklearn.decomposition import PCA
 
 
 app = Flask(__name__)
+bootstrap = Bootstrap(app)
 
 # Charger vos données dans un dataframe
 df = pd.read_csv("data/dermatology_csv.csv")
@@ -393,7 +395,15 @@ def graph7():
 # Créez la route pour la page d'accueil
 @app.route('/')
 def index():
-    return render_template('index.html')
+    return render_template('Accueil.html')
+
+@app.route('/form')
+def form():
+    return render_template('form.html')
+
+@app.route('/statistique')
+def analyse():
+    return render_template('statistique.html')
 
 if __name__ == '__main__':
     app.run(debug=True)

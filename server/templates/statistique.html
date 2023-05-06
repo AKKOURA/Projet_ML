@@ -1,0 +1,128 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Derma Predict</title>
+    <!-- Favicon -->
+    <link rel="shortcut icon" href="../static/assets/images/logo/favicon.png" type="image/x-icon">
+
+    <!-- CSS Files -->
+    <link rel="stylesheet" href="../static/assets/css/animate-3.7.0.css">
+    <link rel="stylesheet" href="../static/assets/css/font-awesome-4.7.0.min.css">
+    <link rel="stylesheet" href="../static/assets/css/bootstrap-4.1.3.min.css">
+    <link rel="stylesheet" href="../static/assets/css/owl-carousel.min.css">
+    <link rel="stylesheet" href="../static/assets/css/jquery.datetimepicker.min.css">
+    <link rel="stylesheet" href="../static/assets/css/linearicons.css">
+    <link rel="stylesheet" href="../static/assets/css/style.css">
+
+    <script src="https://cdn.plot.ly/plotly-latest.min.js"></script>
+</head>
+<body onload="loadPage()">
+
+<!-- Header Area Starts -->
+<header class="header-area">
+    <div class="header-top">
+        <div class="container">
+            <div class="row">
+
+            </div>
+        </div>
+    </div>
+    <div id="header" id="home">
+        <div class="container">
+            <div class="row align-items-center justify-content-between d-flex">
+                <div id="logo">
+                    <a href="Accueil.html"><img src="../static/assets/images/logo/log.png" alt="" title="" /></a>
+                </div>
+                <nav id="nav-menu-container">
+                    <ul class="nav-menu">
+                        <li class="menu-active"><a href="/">Home</a></li>
+                        <li><a href="/statistique">Étude statistique</a></li>
+                        <li><a href="/form">Prédiction</a></li>
+                    </ul>
+                </nav><!-- #nav-menu-container -->
+            </div>
+        </div>
+    </div>
+</header>
+<!-- Header Area End -->
+
+<section class="patient-area section-padding">
+    <div class="container">
+        <h3 class="text-center">Visualisation des données de la dermatologie </h3>
+        <br>
+        <br>
+        <label for="class-select">Sélectionnez les types de maladies de peaux:</label>
+        <div>
+          <label>
+            <input type="checkbox" name="class-select" value=1 checked> Psoriasis
+          </label>
+          <label>
+            <input type="checkbox" name="class-select" value=2 checked> Seboreic dermatitis
+          </label>
+          <label>
+            <input type="checkbox" name="class-select" value=3 checked> Lichen Planus
+          </label>
+          <label>
+            <input type="checkbox" name="class-select" value=4 checked> Pityriasis rosea
+          </label>
+          <label>
+            <input type="checkbox" name="class-select" value=5 checked> Cronic Dermatitis
+          </label>
+          <label>
+            <input type="checkbox" name="class-select" value=6> pityriasis rubra pilaris
+          </label>
+        </div>
+        <br>
+        <P> <b>Vous pouvez analyser ces maladies selon des critères : </b></P>
+        <button id="graph1-btn" class="btn btn-primary">Patients </button>
+        <button id="graph2-btn" class="btn btn-primary">Âges</button>
+        <!-- <button id="graph3-btn" class="btn btn-primary">corrélation Symptômes</button> -->
+        <button id="graph6-btn" class="btn btn-primary">ACP Symptômes</button>
+        <button id="graph7-btn" class="btn btn-primary">% Symptômes</button>
+        <!-- <button id="graph4-btn" class="btn btn-primary">Hérédité1</button> -->
+        <button id="graph5-btn" class="btn btn-primary">Hérédité</button>
+        <div id="graph-container"></div>
+    </div>
+</section>
+
+<!-- Footer Area Starts -->
+<footer class="footer-area section-padding">
+    <div class="footer-copyright">
+        <div class="container">
+            <div class="row">
+                <div class="col-lg-8 col-md-6">
+                        <span>
+<!-- Link back to Colorlib can't be removed. Template is licensed under CC BY 3.0. -->
+Copyright &copy;<script>document.write(new Date().getFullYear());</script> All rights reserved | This template is made with <i class="fa fa-heart-o" aria-hidden="true"></i> by <a href="https://colorlib.com" target="_blank">Colorlib</a>
+                            <!-- Link back to Colorlib can't be removed. Template is licensed under CC BY 3.0. -->
+</span>
+                </div>
+                <div class="col-lg-4 col-md-6">
+                    <div class="social-icons">
+                        <ul>
+                            <li><a href="#"><i class="fa fa-facebook"></i></a></li>
+                            <li><a href="#"><i class="fa fa-twitter"></i></a></li>
+                            <li><a href="#"><i class="fa fa-dribbble"></i></a></li>
+                            <li><a href="#"><i class="fa fa-behance"></i></a></li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</footer>
+<!-- Footer Area End -->
+    <script src="{{ url_for('static', filename='script.js') }}"></script>
+    <!-- Javascript -->
+    <script src="../static/assets/js/vendor/jquery-2.2.4.min.js"></script>
+    <script src="../static/assets/js/vendor/bootstrap-4.1.3.min.js"></script>
+    <script src="../static/assets/js/vendor/wow.min.js"></script>
+    <script src="../static/assets/js/vendor/owl-carousel.min.js"></script>
+    <script src="../static/assets/js/vendor/jquery.datetimepicker.full.min.js"></script>
+    <script src="../static/assets/js/vendor/jquery.nice-select.min.js"></script>
+    <script src="../static/assets/js/vendor/superfish.min.js"></script>
+    <script src="../static/assets/js/main.js"></script>
+
+</body>
+</html>
+
