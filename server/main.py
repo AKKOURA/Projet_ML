@@ -398,9 +398,9 @@ def graph7():
 def index():
     return render_template('Accueil.html')
 
-@app.route('/form')
+@app.route('/prediction')
 def form():
-    return render_template('form.html')
+    return render_template('prediction.html')
 
 @app.route('/statistique')
 def analyse():
@@ -416,8 +416,8 @@ def allowed_file(filename):
            filename.rsplit('.', 1)[1].lower() in ALLOWED_EXTENSIONS
 
 # Créer une route pour télécharger des images
-@app.route('/upload-image', methods=['POST'])
-def upload_image():
+@app.route('/upload', methods=['POST'])
+def upload():
     # Vérifier si un fichier a été envoyé
     if 'image' not in request.files:
         return 'No file uploaded', 400
