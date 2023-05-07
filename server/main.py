@@ -352,6 +352,7 @@ def generate_graph7():
 
     # Retourner le JSON
     return fig_json
+    return render_template("prediction.html", symptomes=symptomes_maladie)
 
 
 @app.route('/graph1', methods=['POST'])
