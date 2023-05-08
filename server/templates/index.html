@@ -1,0 +1,72 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Flask application</title>
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css">
+    <script src="https://cdn.plot.ly/plotly-latest.min.js"></script>
+</head>
+<body onload="loadPage()">
+    <nav class="navbar navbar-expand-lg navbar-light bg-light">
+        <a class="navbar-brand" href="#">Flask application</a>
+        <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+            <span class="navbar-toggler-icon"></span>
+        </button>
+        <div class="collapse navbar-collapse" id="navbarNav">
+            <ul class="navbar-nav">
+                <li class="nav-item">
+                    <a class="nav-link" href="#">Accueil</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="#">À propos</a>
+                </li>
+            </ul>
+        </div>
+    </nav>
+    <div class="container">
+        <h2 class="text-center">Visualisation des données de la dermatologie </h2>
+        <br>
+        <br>
+        <label for="class-select">Télécharger une image</label>
+          <form action="/predict" method="post" enctype="multipart/form-data">
+            <input type="file" name="image"> <input type="submit" value="Télécharger">
+          </form>
+          <br>
+          <br>
+        <label for="class-select">Sélectionnez les types de maladies de peaux:</label>
+        <div>
+          <label>
+            <input type="checkbox" name="class-select" value=1 checked> Psoriasis
+          </label>
+          <label>
+            <input type="checkbox" name="class-select" value=2 checked> Seboreic dermatitis
+          </label>
+          <label>
+            <input type="checkbox" name="class-select" value=3 checked> Lichen Planus
+          </label>
+          <label>
+            <input type="checkbox" name="class-select" value=4 checked> Pityriasis rosea
+          </label>
+          <label>
+            <input type="checkbox" name="class-select" value=5 checked> Cronic Dermatitis
+          </label>
+          <label>
+            <input type="checkbox" name="class-select" value=6> pityriasis rubra pilaris
+          </label>
+        </div>
+        <br>
+        <P> <b>Vous pouvez analyser ces maladies selon des critères : <b></P>
+        <button id="graph1-btn" class="btn btn-primary">Patients </button>
+        <button id="graph2-btn" class="btn btn-primary">Âges</button>
+        <!-- <button id="graph3-btn" class="btn btn-primary">corrélation Symptômes</button> -->
+        <button id="graph6-btn" class="btn btn-primary">ACP Symptômes</button>
+        <button id="graph7-btn" class="btn btn-primary">% Symptômes</button>
+        <!-- <button id="graph4-btn" class="btn btn-primary">Hérédité1</button> -->
+        <button id="graph5-btn" class="btn btn-primary">Hérédité</button>
+        <div id="graph-container"></div>
+    </div>
+    <script src="{{ url_for('static', filename='script.js') }}"></script>
+    <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js"></script>
+</body>
+</html>

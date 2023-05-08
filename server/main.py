@@ -18,6 +18,13 @@ from sklearn.preprocessing import StandardScaler
 import plotly.subplots as sp
 from sklearn.decomposition import PCA
 from werkzeug.utils import secure_filename
+import os
+import pickle
+from PIL import Image
+import dask.array as da
+import dask.bag as db
+from dask import delayed
+import joblib
 
 
 app = Flask(__name__)
@@ -158,8 +165,69 @@ def generate_graph3():
         return figs_json
 
 
+  #-------------------------- SVM ------------------------------------------------------
+  # Chemin vers le modèle entraîné
+model_path = "model/modelSVM.pkl"
+# Charger le modèle
+svm = joblib.load(model_path)
 
-  
+@app.route('/predict', methods=['GET', 'POST'])
+def im():
+    if request.method == 'POST':
+        # Vérifier si un fichier a été téléchargé
+        if 'image' not in request.files:
+            return render_template('Accueil.html', error='Aucun fichier téléchargé.')
+
+        file = request.files['image']
+
+        # Vérifier si le fichier a un nom valide
+        if file.filename == '':
+            return render_template('Accueil.html', error='Aucun fichier sélectionné.')
+
+        # Vérifier si le fichier est une image
+        if file and allowed_file(file.filename):
+            # Enregistrer le fichier dans un dossier temporaire
+            #mettre vos propre repertoire
+            app.config['UPLOAD_FOLDER'] = 'C:/Users/33766/Downloads/'
+            temp_path = os.path.join( app.config['UPLOAD_FOLDER'], file.filename)
+            file.save(temp_path)
+            # Charger l'image et effectuer la prédiction
+            result = predict_image(temp_path)
+
+            # Supprimer le fichier temporaire
+            os.remove(temp_path)
+
+            return render_template('Accueil.html', result=result)
+
+    return render_template('Accueil.html')
+
+def predict_image(image_path):
+    # Charger l'image
+    target_size = (64, 64)
+    img = Image.open(image_path)
+    img = img.resize(target_size)
+    img = np.array(img)
+
+    # Aplatir l'image en vecteur de caractéristiques
+            
+    # Charger l'image et effectuer la prédiction
+    img_flat = img.reshape(1, -1)
+    img_norm = img_flat / 255.0
+
+    # Effectuer la prédiction
+    prediction = svm.predict(img_norm)
+
+    # Renvoyer la prédiction (par exemple, en tant que chaîne de caractères)
+    if prediction == 0:
+         print("BENIN")
+         return "Bénin"
+       
+    else:
+        print("MALIN")
+        return "Maligne"
+
+
+  #fin exemple 
 
     # # Sélectionner les colonnes de symptômes
     # cols_symptoms = df.drop(['age'], axis=1)
