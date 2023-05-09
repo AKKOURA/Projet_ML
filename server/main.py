@@ -4,6 +4,7 @@ import seaborn as sns
 import matplotlib.pyplot as plt
 from io import BytesIO
 import pandas as pd
+from sklearn.decomposition import PCA
 import numpy as np
 from threading import Thread
 from plotly.graph_objs import *
@@ -169,7 +170,7 @@ def generate_graph3():
   # Chemin vers le modèle entraîné
 model_path = "model/modelSVM.pkl"
 # Charger le modèle
-svm = joblib.load(model_path)
+pca, svm = joblib.load(model_path)
 
 @app.route('/predict', methods=['GET', 'POST'])
 def im():
@@ -214,8 +215,10 @@ def predict_image(image_path):
     img_flat = img.reshape(1, -1)
     img_norm = img_flat / 255.0
 
+    X_test_pca = pca.transform(img_norm)
+
     # Effectuer la prédiction
-    prediction = svm.predict(img_norm)
+    prediction = svm.predict(X_test_pca)
 
     # Renvoyer la prédiction (par exemple, en tant que chaîne de caractères)
     if prediction == 0:

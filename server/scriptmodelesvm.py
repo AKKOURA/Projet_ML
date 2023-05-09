@@ -56,4 +56,4 @@ svm.fit(X_train_pca, y_train)
 
 # Sauvegarder le modèle entraîné
 model_path = "model/modelSVM.pkl"
-joblib.dump(svm, model_path)
+joblib.dump((pca, svm), model_path)
