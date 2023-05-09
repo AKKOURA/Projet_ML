@@ -188,7 +188,7 @@ def im():
         if file and allowed_file(file.filename):
             # Enregistrer le fichier dans un dossier temporaire
             #mettre vos propre repertoire
-            app.config['UPLOAD_FOLDER'] = 'C:/Users/33766/Downloads/'
+            app.config['UPLOAD_FOLDER'] = 'C:/Users/AMBER/Downloads/'
             temp_path = os.path.join( app.config['UPLOAD_FOLDER'], file.filename)
             file.save(temp_path)
             # Charger l'image et effectuer la prédiction
@@ -225,40 +225,6 @@ def predict_image(image_path):
     else:
         print("MALIN")
         return "Maligne"
-
-
-  #fin exemple 
-
-    # # Sélectionner les colonnes de symptômes
-    # cols_symptoms = df.drop(['age'], axis=1)
-
-    # # Normaliser les données
-    # scaler = StandardScaler()
-    # X = scaler.fit_transform(cols_symptoms)
-
- 
-    # # Effectuer l'ACP pour réduire la dimensionnalité des données
-    # pca = PCA(n_components=2)
-    # X_pca = pca.fit_transform(X)
-
-    # # Trouver le nombre de clusters
-    # n_clusters = len(maladies)
-    # # Faire le clustering
-    # kmeans = KMeans(n_clusters=n_clusters, random_state=42)
-    # kmeans.fit(X)
-    # # Ajouter les données d'étiquette de cluster et créer le graphe
-    # df['cluster'] = kmeans.labels_
-    # fig = px.scatter(df, x=X_pca[:,0], y=X_pca[:,1], color='cluster', hover_data=cols_symptoms.columns)
-
-    # # Personnaliser le graphe
-    # fig.update_layout(title_text="Clustering des symptômes pour chaque maladie sélectionnée",
-    #                   xaxis_title_text="Composante principale 1",
-    #                   yaxis_title_text="Composante principale 2",
-    #                   height=800, width=800)
-
-    # # Convertir la figure en JSON
-    # fig_json = fig.to_json()
-    # return fig_json
 
 def generate_graph6():
      # Récupérer les données de la requête JSON
@@ -422,7 +388,7 @@ def generate_graph7():
     return fig_json
     return render_template("prediction.html", symptomes=symptomes_maladie)
 
-
+#Routage
 @app.route('/graph1', methods=['POST'])
 def graph1():
   fig_json = generate_graph1()
@@ -439,12 +405,6 @@ def graph2():
 def graph3():
   fig = generate_graph3()
   return fig
-
-# # Créez la route pour afficher le graphe 3
-# @app.route('/graph4', methods=['POST'])
-# def graph4():
-#   fig = generate_graph4()
-#   return fig
 
 # Créez la route pour afficher le graphe 5
 @app.route('/graph5', methods=['POST'])

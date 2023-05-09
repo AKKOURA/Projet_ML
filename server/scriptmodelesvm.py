@@ -5,11 +5,12 @@ from PIL import Image
 from sklearn.svm import SVC
 from sklearn.metrics import accuracy_score
 from sklearn.preprocessing import StandardScaler
+from sklearn.decomposition import PCA
 import joblib
 
 # Définir les chemins des dossiers de données
-dir_train = 'server/data/train/'
-dir_test = 'server/data/test/'
+dir_train = 'data/train/'
+dir_test = 'data/test/'
 
 # Fonction pour charger les images
 def load_images(folder):
@@ -41,12 +42,17 @@ y_test = np.concatenate((test_benign_labels, test_malign_labels))
 # Aplatir les images en vecteurs de caractéristiques
 X_train_flat = X_train.reshape(X_train.shape[0], -1)
 X_test_flat = X_test.reshape(X_test.shape[0], -1)
+
 X_train_norm = X_train_flat / 255.0
 X_test_norm = X_test_flat / 255.0
 
-# Créer un objet SVM et entraîner le modèle sur les données normalisées
-svm = SVC(kernel='linear', C=1)
-svm.fit(X_train_norm, y_train)
+pca = PCA(n_components=150)
+X_train_pca = pca.fit_transform(X_train_norm)
+X_test_pca = pca.transform(X_test_norm)
+
+# Entraîner le modèle SVM sur les données PCA
+svm = SVC(kernel='linear')
+svm.fit(X_train_pca, y_train)
 
 # Sauvegarder le modèle entraîné
 model_path = "model/modelSVM.pkl"
