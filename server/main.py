@@ -29,6 +29,7 @@ import joblib
 
 
 app = Flask(__name__)
+
 bootstrap = Bootstrap(app)
 
 # Charger vos données dans un dataframe
@@ -189,16 +190,14 @@ def im():
         if file and allowed_file(file.filename):
             # Enregistrer le fichier dans un dossier temporaire
             #mettre vos propre repertoire
-            app.config['UPLOAD_FOLDER'] = '/Users/kendeemmanuela'
-            temp_path = os.path.join( app.config['UPLOAD_FOLDER'], file.filename)
+            app.config['UPLOAD_FOLDER'] = 'static/assets/images'
+            temp_path = os.path.join(app.config['UPLOAD_FOLDER'], file.filename)
             file.save(temp_path)
             # Charger l'image et effectuer la prédiction
             result = predict_image(temp_path)
-
-            return render_template('prediction.html', result=result,image=file)
-            # Supprimer le fichier temporaire
-            os.remove(temp_path)
+            return render_template('resultPred.html', result=result, image_path=file.filename)
     return render_template('prediction.html')
+
 
 def predict_image(image_path):
     # Charger l'image
@@ -221,11 +220,11 @@ def predict_image(image_path):
     # Renvoyer la prédiction (par exemple, en tant que chaîne de caractères)
     if prediction == 0:
          print("BENIN")
-         return "Bénin"
+         return "Catégorie BENIGNE"
        
     else:
         print("MALIN")
-        return "Maligne"
+        return "Catégorie MALIGNE"
 
 def generate_graph6():
      # Récupérer les données de la requête JSON
