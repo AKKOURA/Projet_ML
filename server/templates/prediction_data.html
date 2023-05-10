@@ -1,129 +1,255 @@
 <!DOCTYPE html>
-<html>
+<html lang="en">
 <head>
-  <title>Derma Predict</title>
-  <!-- Favicon -->
-  <link rel="shortcut icon" href="../static/assets/images/logo/favicon.png" type="image/x-icon">
-
-  <!-- CSS Files -->
-  <link rel="stylesheet" href="../static/assets/css/animate-3.7.0.css">
-  <link rel="stylesheet" href="../static/assets/css/font-awesome-4.7.0.min.css">
-  <link rel="stylesheet" href="../static/assets/css/bootstrap-4.1.3.min.css">
-  <link rel="stylesheet" href="../static/assets/css/owl-carousel.min.css">
-  <link rel="stylesheet" href="../static/assets/css/jquery.datetimepicker.min.css">
-  <link rel="stylesheet" href="../static/assets/css/linearicons.css">
-  <link rel="stylesheet" href="../static/assets/css/style.css">
-
-  <script src="https://cdn.plot.ly/plotly-latest.min.js"></script>
+  <meta charset="UTF-8">
+  <title>Title</title>
 </head>
-<body onload="loadPage()">
-
-<!-- Header Area Starts -->
-<header class="header-area">
-  <div class="header-top">
-    <div class="container">
-      <div class="row">
-
-      </div>
-    </div>
-  </div>
-  <div id="header" id="home">
-    <div class="container">
-      <div class="row align-items-center justify-content-between d-flex">
-        <div id="logo">
-          <a href="Accueil.html"><img src="../static/assets/images/logo/log.png" alt="" title="" /></a>
-        </div>
-        <nav id="nav-menu-container">
-          <ul class="nav-menu">
-            <li class="menu-active"><a href="/">Home</a></li>
-            <li><a href="/statistique">Étude statistique</a></li>
-            <li><a href="/prediction">Prédiction</a></li>
-            <li><a href="/prediction-data">Prédiction data</a></li>
-          </ul>
-        </nav><!-- #nav-menu-container -->
-      </div>
-    </div>
-  </div>
-</header>
-<!-- Header Area End -->
-<!-- Formulaire pour selectionner les images et/ou les symptômes -->
-<section class="patient-area section-padding">
-  <div class="container">
-    <div class="row">
-      <div class="col-lg-6 offset-lg-3">
-        <div class="section-top text-center">
-          <h2>À vous de prédire</h2>
-        </div>
-      </div>
-    </div>
-    <div class="row">
-      <div class="col-lg-6 offset-lg-3">
-        <div class="section-top text-center">
-          <h4>Résultat</h4>
-          <p>{{result}}</p>
-        </div>
-      </div>
-    </div>
-    <div class="row">
-      <div class="col-lg-5 offset-lg-1 align-self-center">
-        <div class="appointment-form text-center mt-5 mt-lg-0">
-          <h3 class="mb-5">Prédiction</h3>
-          <form action="/routedesara" method="POST" enctype="multipart/form-data">
-            <div class="form-group">
-              <label for="symptome"  style="color: #FFFFFF">Sélectionnez un symptôme :</label>
-              <select  style="color:#FFFFFF">
-                <option value="symptome1">syptome 1</option>
-                <option value="symptome2">syptome 2</option>
-              </select>
-              <br><br>
-            </div>
-            <a href="#" class="template-btn"><input type="submit" value="Valider"></a>
-          </form>
-        </div>
-      </div>
-    </div>
-  </div>
-</section>
-<!-- Patient Area Starts -->
-<!-- Footer Area Starts -->
-<footer class="footer-area section-padding">
-  <div class="footer-copyright">
-    <div class="container">
-      <div class="row">
-        <div class="col-lg-8 col-md-6">
-                        <span>
-<!-- Link back to Colorlib can't be removed. Template is licensed under CC BY 3.0. -->
-Copyright &copy;<script>document.write(new Date().getFullYear());</script> All rights reserved | This template is made with <i class="fa fa-heart-o" aria-hidden="true"></i> by <a href="https://colorlib.com" target="_blank">Colorlib</a>
-                          <!-- Link back to Colorlib can't be removed. Template is licensed under CC BY 3.0. -->
-</span>
-        </div>
-        <div class="col-lg-4 col-md-6">
-          <div class="social-icons">
-            <ul>
-              <li><a href="#"><i class="fa fa-facebook"></i></a></li>
-              <li><a href="#"><i class="fa fa-twitter"></i></a></li>
-              <li><a href="#"><i class="fa fa-dribbble"></i></a></li>
-              <li><a href="#"><i class="fa fa-behance"></i></a></li>
-            </ul>
-          </div>
-        </div>
-      </div>
-    </div>
-  </div>
-</footer>
-<!-- Footer Area End -->
-<script src="{{ url_for('static', filename='script.js') }}"></script>
-<!-- Javascript -->
-<script src="../static/assets/js/vendor/jquery-2.2.4.min.js"></script>
-<script src="../static/assets/js/vendor/bootstrap-4.1.3.min.js"></script>
-<script src="../static/assets/js/vendor/wow.min.js"></script>
-<script src="../static/assets/js/vendor/owl-carousel.min.js"></script>
-<script src="../static/assets/js/vendor/jquery.datetimepicker.full.min.js"></script>
-<script src="../static/assets/js/vendor/jquery.nice-select.min.js"></script>
-<script src="../static/assets/js/vendor/superfish.min.js"></script>
-<script src="../static/assets/js/main.js"></script>
-
+<body>
+<div>
+  <form>
+    <label>erythema</label>
+    <select name="erythema">
+      <option value="0">absent</option>
+      <option value="1">pas très présent</option>
+      <option value="2">intermédiaire</option>
+      <option value="3">beaucoup présent</option>
+    </select>
+    <br>
+    <label>scaling</label>
+    <select name="scaling">
+      <option value="0">absent</option>
+      <option value="1">pas très présent</option>
+      <option value="2">intermédiaire</option>
+      <option value="3">beaucoup présent</option>
+    </select>
+    <br>
+    <label>definite_borders</label>
+    <select name="definite_borders">
+      <option value="0">absent</option>
+      <option value="1">pas très présent</option>
+      <option value="2">intermédiaire</option>
+      <option value="3">beaucoup présent</option>
+    </select>
+    <br>
+    <label>itching</label>
+    <select name="itching">
+      <option value="0">absent</option>
+      <option value="1">pas très présent</option>
+      <option value="2">intermédiaire</option>
+      <option value="3">beaucoup présent</option>
+    </select>
+    <br>
+    <label>koebner_phenomenon</label>
+    <select name="koebner_phenomenon">
+      <option value="0">absent</option>
+      <option value="1">pas très présent</option>
+      <option value="2">intermédiaire</option>
+      <option value="3">beaucoup présent</option>
+    </select>
+    <br>
+    <label>polygonal_papules</label>
+    <select name="polygonal_papules">
+      <option value="0">absent</option>
+      <option value="1">pas très présent</option>
+      <option value="2">intermédiaire</option>
+      <option value="3">beaucoup présent</option>
+    </select>
+    <br>
+    <label>follicular_papules</label>
+    <select name="follicular_papules">
+      <option value="0">absent</option>
+      <option value="1">pas très présent</option>
+      <option value="2">intermédiaire</option>
+      <option value="3">beaucoup présent</option>
+    </select>
+    <br>
+    <label>oral_mucosal_involvement</label>
+    <select name="oral_mucosal_involvement">
+      <option value="0">absent</option>
+      <option value="1">pas très présent</option>
+      <option value="2">intermédiaire</option>
+      <option value="3">beaucoup présent</option>
+    </select>
+    <br>
+    <label>knee_and_elbow_involvement </label>
+    <select name="knee_and_elbow_involvement ">
+      <option value="0">absent</option>
+      <option value="1">pas très présent</option>
+      <option value="2">intermédiaire</option>
+      <option value="3">beaucoup présent</option>
+    </select>
+    <br>
+    <label>scalp_involvement</label>
+    <select name="scalp_involvement">
+      <option value="0">absent</option>
+      <option value="1">pas très présent</option>
+      <option value="2">intermédiaire</option>
+      <option value="3">beaucoup présent</option>
+    </select>
+    <br>
+    <label>melanin_incontinence </label>
+    <select name="melanin_incontinence ">
+      <option value="0">absent</option>
+      <option value="1">pas très présent</option>
+      <option value="2">intermédiaire</option>
+      <option value="3">beaucoup présent</option>
+    </select>
+    <br>
+    <label>eosinophils_in_the_infiltrate</label>
+    <select name="eosinophils_in_the_infiltrate">
+      <option value="0">absent</option>
+      <option value="1">pas très présent</option>
+      <option value="2">intermédiaire</option>
+      <option value="3">beaucoup présent</option>
+    </select>
+    <br>
+    <label>pnl_infiltrate </label>
+    <select name="pnl_infiltrate">
+      <option value="0">absent</option>
+      <option value="1">pas très présent</option>
+      <option value="2">intermédiaire</option>
+      <option value="3">beaucoup présent</option>
+    </select>
+    <br>
+    <label>fibrosis_of_the_papillary_dermis</label>
+    <select name="fibrosis_of_the_papillary_dermis">
+      <option value="0">absent</option>
+      <option value="1">pas très présent</option>
+      <option value="2">intermédiaire</option>
+      <option value="3">beaucoup présent</option>
+    </select>
+    <br>
+    <label>exocytosis</label>
+    <select name="exocytosis">
+      <option value="0">absent</option>
+      <option value="1">pas très présent</option>
+      <option value="2">intermédiaire</option>
+      <option value="3">beaucoup présent</option>
+    </select>
+    <br>
+    <label>acanthosis </label>
+    <select name="acanthosis">
+      <option value="0">absent</option>
+      <option value="1">pas très présent</option>
+      <option value="2">intermédiaire</option>
+      <option value="3">beaucoup présent</option>
+    </select>
+    <br>
+    <label>hyperkeratosis</label>
+    <select name="hyperkeratosis">
+      <option value="0">absent</option>
+      <option value="1">pas très présent</option>
+      <option value="2">intermédiaire</option>
+      <option value="3">beaucoup présent</option>
+    </select>
+    <br>
+    <label>parakeratosis</label>
+    <select name="parakeratosis">
+      <option value="0">absent</option>
+      <option value="1">pas très présent</option>
+      <option value="2">intermédiaire</option>
+      <option value="3">beaucoup présent</option>
+    </select>
+    <br>
+    <label>clubbing_of_the_rete_ridges</label>
+    <select name="clubbing_of_the_rete_ridges">
+      <option value="0">absent</option>
+      <option value="1">pas très présent</option>
+      <option value="2">intermédiaire</option>
+      <option value="3">beaucoup présent</option>
+    </select>
+    <br>
+    <label>elongation_of_the_rete_ridges</label>
+    <select name="elongation_of_the_rete_ridges">
+      <option value="0">absent</option>
+      <option value="1">pas très présent</option>
+      <option value="2">intermédiaire</option>
+      <option value="3">beaucoup présent</option>
+    </select>
+    <br>
+    <label>thinning_of_the_suprapapillary_epidermis </label>
+    <select name="thinning_of_the_suprapapillary_epidermis">
+      <option value="0">absent</option>
+      <option value="1">pas très présent</option>
+      <option value="2">intermédiaire</option>
+      <option value="3">beaucoup présent</option>
+    </select>
+    <br>
+    <label>spongiform_pustule </label>
+    <select name="spongiform_pustule ">
+      <option value="0">absent</option>
+      <option value="1">pas très présent</option>
+      <option value="2">intermédiaire</option>
+      <option value="3">beaucoup présent</option>
+    </select>
+    <br>
+    <label>munro_microabcess</label>
+    <select name="munro_microabcess">
+      <option value="0">absent</option>
+      <option value="1">pas très présent</option>
+      <option value="2">intermédiaire</option>
+      <option value="3">beaucoup présent</option>
+    </select>
+    <br>
+    <label>focal_hypergranulosis</label>
+    <select name="focal_hypergranulosis">
+      <option value="0">absent</option>
+      <option value="1">pas très présent</option>
+      <option value="2">intermédiaire</option>
+      <option value="3">beaucoup présent</option>
+    </select>
+    <br>
+    <label>disappearance_of_the_granular_layer</label>
+    <select name="disappearance_of_the_granular_layer ">
+      <option value="0">absent</option>
+      <option value="1">pas très présent</option>
+      <option value="2">intermédiaire</option>
+      <option value="3">beaucoup présent</option>
+    </select>
+    <br>
+    <label>vacuolisation_and_damage_of_basal_layer</label>
+    <select name="vacuolisation_and_damage_of_basal_layer">
+      <option value="0">absent</option>
+      <option value="1">pas très présent</option>
+      <option value="2">intermédiaire</option>
+      <option value="3">beaucoup présent</option>
+    </select>
+    <br>
+    <label>spongiosis</label>
+    <select name="spongiosis">
+      <option value="0">absent</option>
+      <option value="1">pas très présent</option>
+      <option value="2">intermédiaire</option>
+      <option value="3">beaucoup présent</option>
+    </select>
+    <br>
+    <label>saw-tooth_appearance_of_retes</label>
+    <select name="saw-tooth_appearance_of_retes">
+      <option value="0">absent</option>
+      <option value="1">pas très présent</option>
+      <option value="2">intermédiaire</option>
+      <option value="3">beaucoup présent</option>
+    </select>
+    <br>
+    <label>follicular_horn_plug</label>
+    <select name="follicular_horn_plug">
+      <option value="0">absent</option>
+      <option value="1">pas très présent</option>
+      <option value="2">intermédiaire</option>
+      <option value="3">beaucoup présent</option>
+    </select>
+    <br>
+    <label>perifollicular_parakeratosis</label>
+    <select name="perifollicular_parakeratosis">
+      <option value="0">absent</option>
+      <option value="1">pas très présent</option>
+      <option value="2">intermédiaire</option>
+      <option value="3">beaucoup présent</option>
+    </select>
+    <br>
+    <a href="#" class="template-btn"><input type="submit" value="Valider"></a>
+  </form>
+</div>
 </body>
 </html>
-
 
