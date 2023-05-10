@@ -196,11 +196,9 @@ def im():
             # Charger l'image et effectuer la prédiction
             result = predict_image(temp_path)
 
+            return render_template('prediction.html', result=result,image=file)
             # Supprimer le fichier temporaire
             os.remove(temp_path)
-
-            return render_template('prediction.html', result=result,image=file)
-
     return render_template('prediction.html')
 
 
@@ -463,12 +461,16 @@ def index():
     return render_template('Accueil.html')
 
 @app.route('/prediction')
-def form():
+def form_image():
     return render_template('prediction.html')
 
 @app.route('/statistique')
 def analyse():
     return render_template('statistique.html')
+
+@app.route('/prediction-data')
+def form_data():
+    return render_template('prediction_data.html')
 
 
 # Définir les types de fichiers autorisés

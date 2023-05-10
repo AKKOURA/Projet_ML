@@ -38,6 +38,7 @@
                         <li class="menu-active"><a href="/">Home</a></li>
                         <li><a href="/statistique">Étude statistique</a></li>
                         <li><a href="/prediction">Prédiction</a></li>
+                        <li><a href="/prediction-data">Prédiction data</a></li>
                     </ul>
                 </nav><!-- #nav-menu-container -->
             </div>
@@ -70,14 +71,8 @@
                     <h3 class="mb-5">Prédiction</h3>
                     <form action="/predict" method="POST" enctype="multipart/form-data">
                         <div class="form-group">
-                            <label for="image" style="color: #FFFFFF">Sélectionnez une image à télécharger :</label>
+                            <label for="image" style="color: #FFFFFF">Sélectionnez une image:</label>
                             <input style="color: #FFFFFF" type="file" id="image" name="image">
-                            <label for="symptome"  style="color: #FFFFFF">Sélectionnez un symptôme :</label>
-                            <select name="symptome"  style="color: #FFFFFF">
-                                {% for symptome in symptomes %}
-                                <option value="{{ symptome }}">{{ symptome }}</option>
-                                {% endfor %}
-                            </select>
                             <br><br>
                         </div>
                         <a href="#" class="template-btn"><input type="submit" value="Valider"></a>
