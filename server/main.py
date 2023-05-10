@@ -189,7 +189,7 @@ def im():
         if file and allowed_file(file.filename):
             # Enregistrer le fichier dans un dossier temporaire
             #mettre vos propre repertoire
-            app.config['UPLOAD_FOLDER'] = '/Users/user'
+            app.config['UPLOAD_FOLDER'] = '/Users/kendeemmanuela'
             temp_path = os.path.join( app.config['UPLOAD_FOLDER'], file.filename)
 
             file.save(temp_path)
@@ -206,7 +206,6 @@ def submit_form():
     if request.method == 'POST':
         # Vérifier si une option a été sélectionnée
         formData = request.form
-
         resultat =  predict_from_form(formData)
 
         return render_template('prediction_data.html', result=resultat)
