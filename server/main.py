@@ -189,7 +189,7 @@ def im():
         if file and allowed_file(file.filename):
             # Enregistrer le fichier dans un dossier temporaire
             #mettre vos propre repertoire
-            app.config['UPLOAD_FOLDER'] = 'C:/Users/AMBER/Downloads/'
+            app.config['UPLOAD_FOLDER'] = '/Users/kendeemmanuela'
             temp_path = os.path.join( app.config['UPLOAD_FOLDER'], file.filename)
             file.save(temp_path)
             # Charger l'image et effectuer la prédiction
@@ -198,9 +198,9 @@ def im():
             # Supprimer le fichier temporaire
             os.remove(temp_path)
 
-            return render_template('Accueil.html', result=result)
+            return render_template('prediction.html', result=result,image=file)
 
-    return render_template('Accueil.html')
+    return render_template('prediction.html')
 
 def predict_image(image_path):
     # Charger l'image
