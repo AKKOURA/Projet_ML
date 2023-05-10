@@ -189,8 +189,9 @@ def im():
         if file and allowed_file(file.filename):
             # Enregistrer le fichier dans un dossier temporaire
             #mettre vos propre repertoire
-            app.config['UPLOAD_FOLDER'] = '/Users/kendeemmanuela'
+            app.config['UPLOAD_FOLDER'] = '/Users/user'
             temp_path = os.path.join( app.config['UPLOAD_FOLDER'], file.filename)
+
             file.save(temp_path)
             # Charger l'image et effectuer la prédiction
             result = predict_image(temp_path)
@@ -199,6 +200,8 @@ def im():
             # Supprimer le fichier temporaire
             os.remove(temp_path)
     return render_template('prediction.html')
+
+
 
 def predict_image(image_path):
     # Charger l'image
@@ -226,6 +229,35 @@ def predict_image(image_path):
     else:
         print("MALIN")
         return "Maligne"
+
+    # fonction responsable pour la predicition des données numériques
+
+def predict_from_form(form_data):
+    # Charger les données du formulaire dans un DataFrame
+    form_df = pd.DataFrame(form_data, index=[0])
+
+    # Charger le modèle de décision tree entraîné
+    decision_tree = joblib.load('model/modelDecisionTree.pkl')
+
+    # Effectuer les prétraitements sur les données du formulaire (par exemple, encoder les catégories, normaliser les valeurs, etc.)
+    # Assurez-vous d'appliquer les mêmes transformations que celles appliquées lors de l'entraînement du modèle
+
+    # Effectuer la prédiction
+    prediction = decision_tree.predict(form_df)
+
+    # Convertir la prédiction en classe de maladie
+    disease_classes = {
+        1: 'Psoriasis',
+        2: 'Seborrheic Dermatitis',
+        3: 'Lichen Planus',
+        4: 'Pityriasis Rosea',
+        5: 'Chronic Dermatitis',
+        6: 'Pityriasis Rubra Pilaris'
+    }
+    predicted_class = disease_classes[prediction]
+
+    # Renvoyer la prédiction
+    return predicted_class
 
 def generate_graph6():
      # Récupérer les données de la requête JSON
