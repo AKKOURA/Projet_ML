@@ -1,14 +1,7 @@
 <!DOCTYPE html>
-<html lang="en">
+<html>
 <head>
-  <!-- Required Meta Tags -->
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <meta http-equiv="X-UA-Compatible" content="ie=edge">
-
-  <!-- Page Title -->
   <title>Derma Predict</title>
-
   <!-- Favicon -->
   <link rel="shortcut icon" href="../static/assets/images/logo/favicon.png" type="image/x-icon">
 
@@ -20,13 +13,10 @@
   <link rel="stylesheet" href="../static/assets/css/jquery.datetimepicker.min.css">
   <link rel="stylesheet" href="../static/assets/css/linearicons.css">
   <link rel="stylesheet" href="../static/assets/css/style.css">
+
+  <script src="https://cdn.plot.ly/plotly-latest.min.js"></script>
 </head>
-<body>
-<!-- Preloader Starts -->
-<div class="preloader">
-  <div class="spinner"></div>
-</div>
-<!-- Preloader End -->
+<body onload="loadPage()">
 
 <!-- Header Area Starts -->
 <header class="header-area">
@@ -56,42 +46,7 @@
   </div>
 </header>
 <!-- Header Area End -->
-
-<!-- Banner Area Starts -->
-<section class="banner-area">
-  <div class="container">
-    <div class="row">
-      <div class="col-lg-5">
-        <h4>Notre IA à vos soins</h4>
-        <h1>Ayez une meilleure visibilité sur vos symptômes</h1>
-        <p>Nous mettons à votre service, une IA pour prédire au mieux à quoi correspondent vos symptômes.</p>
-        <a href="/prediction" class="template-btn mt-3">Commencez la prédiction</a>
-      </div>
-    </div>
-  </div>
-</section>
-<!-- Banner Area End -->
-
-<!-- Welcome Area Starts -->
-<section class="welcome-area section-padding3">
-  <div class="container">
-    <div class="row">
-      <div class="col-lg-5 align-self-center">
-        <div class="welcome-img">
-          <img src="../static/assets/images/welcome.png" alt="">
-        </div>
-      </div>
-      <div class="col-lg-7">
-        <div class="welcome-text mt-5 mt-lg-0">
-          <h2>Bienvenue sur Derma Predict</h2>
-          <p class="pt-3"> Notre application web,vous permet à partir d'une image ou d'une selection de symptôme de diagnostiquer un problème dermathologique</p>
-        </div>
-      </div>
-    </div>
-  </div>
-</section>
-
-<!-- Patient Area Starts -->
+<!-- Formulaire pour selectionner les images et/ou les symptômes -->
 <section class="patient-area section-padding">
   <div class="container">
     <div class="row">
@@ -102,18 +57,23 @@
       </div>
     </div>
     <div class="row">
+      <div class="col-lg-6 offset-lg-3">
+        <div class="section-top text-center">
+          <h4>Résultat</h4>
+          <p>{{result}}</p>
+        </div>
+      </div>
+    </div>
+    <div class="row">
       <div class="col-lg-5 offset-lg-1 align-self-center">
         <div class="appointment-form text-center mt-5 mt-lg-0">
           <h3 class="mb-5">Prédiction</h3>
-          <form action="/upload" method="POST" enctype="multipart/form-data">
+          <form action="/routedesara" method="POST" enctype="multipart/form-data">
             <div class="form-group">
-              <label for="image" style="color: #FFFFFF">Sélectionnez une image à télécharger :</label>
-              <input style="color: #FFFFFF" type="file" id="image" name="image">
               <label for="symptome"  style="color: #FFFFFF">Sélectionnez un symptôme :</label>
-              <select name="symptome"  style="color: #FFFFFF">
-                {% for symptome in symptomes %}
-                <option value="{{ symptome }}">{{ symptome }}</option>
-                {% endfor %}
+              <select  style="color:#FFFFFF">
+                <option value="symptome1">syptome 1</option>
+                <option value="symptome2">syptome 2</option>
               </select>
               <br><br>
             </div>
@@ -125,7 +85,6 @@
   </div>
 </section>
 <!-- Patient Area Starts -->
-
 <!-- Footer Area Starts -->
 <footer class="footer-area section-padding">
   <div class="footer-copyright">
@@ -153,8 +112,7 @@ Copyright &copy;<script>document.write(new Date().getFullYear());</script> All r
   </div>
 </footer>
 <!-- Footer Area End -->
-
-
+<script src="{{ url_for('static', filename='script.js') }}"></script>
 <!-- Javascript -->
 <script src="../static/assets/js/vendor/jquery-2.2.4.min.js"></script>
 <script src="../static/assets/js/vendor/bootstrap-4.1.3.min.js"></script>
@@ -167,3 +125,5 @@ Copyright &copy;<script>document.write(new Date().getFullYear());</script> All r
 
 </body>
 </html>
+
+
