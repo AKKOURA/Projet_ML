@@ -5,8 +5,11 @@
   <title>Title</title>
 </head>
 <body>
+<div >
+  <h4>Prédiction en utilisant les données du formulaire</h4>
+</div>
 <div>
-  <form>
+  <form action="/predict-form" method="POST" enctype="multipart/form-data">
     <label>erythema</label>
     <select name="erythema">
       <option value="0">absent</option>
@@ -247,9 +250,39 @@
       <option value="3">beaucoup présent</option>
     </select>
     <br>
+    <label>family_history</label>
+    <select name="family_history">
+      <option value="0">Oui</option>
+      <option value="1">Non</option>
+    </select>
+    <br>
+    <label>band-like_infiltrate</label>
+    <select name="band-like_infiltrate">
+      <option value="0">absent</option>
+      <option value="1">pas très présent</option>
+      <option value="2">intermédiaire</option>
+      <option value="3">beaucoup présent</option>
+    </select>
+    <br>
+    <label>inflammatory_monoluclear_inflitrate</label>
+    <select name="inflammatory_monoluclear_inflitrate">
+      <option value="0">absent</option>
+      <option value="1">pas très présent</option>
+      <option value="2">intermédiaire</option>
+      <option value="3">beaucoup présent</option>
+    </select>
+    <br>
+    <label>age</label>
+    <input type="number">
+    <br>
     <a href="#" class="template-btn"><input type="submit" value="Valider"></a>
   </form>
 </div>
+<div >
+  <h4>Résultat</h4>
+  <p>{{resultat}}</p>
+</div>
 </body>
 </html>
+
 

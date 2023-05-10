@@ -201,6 +201,16 @@ def im():
             os.remove(temp_path)
     return render_template('prediction.html')
 
+@app.route('/predict-form', methods=['GET', 'POST'])
+def submit_form():
+    if request.method == 'POST':
+        # Vérifier si une option a été sélectionnée
+        formData = request.form
+
+        resultat =  predict_from_form(formData)
+
+        return render_template('prediction_data.html', result=resultat)
+    return render_template('prediction_data.html')
 
 
 def predict_image(image_path):
