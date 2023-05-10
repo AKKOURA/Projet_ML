@@ -226,6 +226,35 @@ def predict_image(image_path):
         print("MALIN")
         return "Catégorie MALIGNE"
 
+    # fonction responsable pour la predicition des données numériques
+
+def predict_from_form(form_data):
+    # Charger les données du formulaire dans un DataFrame
+    form_df = pd.DataFrame(form_data, index=[0])
+
+    # Charger le modèle de décision tree entraîné
+    decision_tree = joblib.load('model/modelDecisionTree.pkl')
+
+    # Effectuer les prétraitements sur les données du formulaire (par exemple, encoder les catégories, normaliser les valeurs, etc.)
+    # Assurez-vous d'appliquer les mêmes transformations que celles appliquées lors de l'entraînement du modèle
+
+    # Effectuer la prédiction
+    prediction = decision_tree.predict(form_df)
+
+    # Convertir la prédiction en classe de maladie
+    disease_classes = {
+        1: 'Psoriasis',
+        2: 'Seborrheic Dermatitis',
+        3: 'Lichen Planus',
+        4: 'Pityriasis Rosea',
+        5: 'Chronic Dermatitis',
+        6: 'Pityriasis Rubra Pilaris'
+    }
+    predicted_class = disease_classes[prediction]
+
+    # Renvoyer la prédiction
+    return predicted_class
+
 def generate_graph6():
      # Récupérer les données de la requête JSON
     data = request.get_json()
