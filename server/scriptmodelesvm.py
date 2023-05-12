@@ -9,8 +9,8 @@ from sklearn.decomposition import PCA
 import joblib
 
 # Définir les chemins des dossiers de données
-dir_train = 'server/data/train/'
-dir_test = 'server/data/test/'
+dir_train = 'data/train/'
+dir_test = 'data/test/'
 
 # Fonction pour charger les images
 def load_images(folder):
@@ -55,5 +55,5 @@ svm = SVC(kernel='linear')
 svm.fit(X_train_pca, y_train)
 
 # Sauvegarder le modèle entraîné
-model_path = "server/model/modelSVM.pkl"
+model_path = "model/modelSVM.pkl"
 joblib.dump((pca, svm), model_path)

@@ -5,7 +5,7 @@ from sklearn.metrics import accuracy_score
 import joblib
 
 # Charger les données depuis le fichier CSV
-data = pd.read_csv('server/data/dermatology_csv.csv')
+data = pd.read_csv('data/dermatology_csv.csv')
 data = data.dropna()
 
 # Diviser les données en features (X) et labels (y)
@@ -27,5 +27,5 @@ accuracy = accuracy_score(y_test, y_pred)
 print("Accuracy:", accuracy)
 
 # Sauvegarder le modèle entraîné
-model_path = "server/model/modelDecisionTree.pkl"
+model_path = "model/modelDecisionTree.pkl"
 joblib.dump(decision_tree, model_path)
