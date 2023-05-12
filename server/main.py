@@ -29,6 +29,7 @@ import joblib
 
 
 app = Flask(__name__)
+
 bootstrap = Bootstrap(app)
 
 # Charger vos données dans un dataframe
@@ -189,27 +190,13 @@ def im():
         if file and allowed_file(file.filename):
             # Enregistrer le fichier dans un dossier temporaire
             #mettre vos propre repertoire
-            app.config['UPLOAD_FOLDER'] = '/Users/kendeemmanuela'
-            temp_path = os.path.join( app.config['UPLOAD_FOLDER'], file.filename)
-
+            app.config['UPLOAD_FOLDER'] = 'static/assets/images'
+            temp_path = os.path.join(app.config['UPLOAD_FOLDER'], file.filename)
             file.save(temp_path)
             # Charger l'image et effectuer la prédiction
             result = predict_image(temp_path)
-
-            return render_template('prediction.html', result=result,image=file)
-            # Supprimer le fichier temporaire
-            os.remove(temp_path)
+            return render_template('resultPred.html', result=result, image_path=file.filename)
     return render_template('prediction.html')
-
-@app.route('/predict-form', methods=['GET', 'POST'])
-def submit_form():
-    if request.method == 'POST':
-        # Vérifier si une option a été sélectionnée
-        formData = request.form
-        resultat =  predict_from_form(formData)
-
-        return render_template('prediction_data.html', result=resultat)
-    return render_template('prediction_data.html')
 
 
 def predict_image(image_path):
@@ -233,11 +220,11 @@ def predict_image(image_path):
     # Renvoyer la prédiction (par exemple, en tant que chaîne de caractères)
     if prediction == 0:
          print("BENIN")
-         return "Bénin"
+         return "Catégorie BENIGNE"
        
     else:
         print("MALIN")
-        return "Maligne"
+        return "Catégorie MALIGNE"
 
     # fonction responsable pour la predicition des données numériques
 
@@ -263,8 +250,9 @@ def predict_from_form(form_data):
         5: 'Chronic Dermatitis',
         6: 'Pityriasis Rubra Pilaris'
     }
-    predicted_class = disease_classes[prediction]
+    predicted_class = disease_classes[int(prediction[0])]
 
+    print(predicted_class)
     # Renvoyer la prédiction
     return predicted_class
 
@@ -431,6 +419,16 @@ def generate_graph7():
     return render_template("prediction.html", symptomes=symptomes_maladie)
 
 #Routage
+@app.route('/predict-form', methods=['GET', 'POST'])
+def submit_form():
+    if request.method == 'POST':
+        # Vérifier si une option a été sélectionnée
+        formData = request.form
+        result =  predict_from_form(formData)
+
+        return render_template('resultPredNum.html', result=result)
+    return render_template('prediction_data.html')
+
 @app.route('/graph1', methods=['POST'])
 def graph1():
   fig_json = generate_graph1()
