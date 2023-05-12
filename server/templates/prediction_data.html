@@ -68,24 +68,23 @@
     </style>
 </head>
 <body onload="loadPage()">
-    <nav class="navbar navbar-expand-lg navbar-light bg-light">
+    <nav class="navbar  navbar-light bg-light">
       <a href="Accueil.html"><img src="../static/assets/images/logo/log.png" alt="" title="" /></a>
-        <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
-            <span class="navbar-toggler-icon"></span>
-        </button>
-        <nav id="nav-menu-container">
+        <nav id="nav-menu-container" style="float: right;">
           <ul class="nav-menu">
             <li class="menu-active"><a href="/">Home</a></li>
             <li><a href="/statistique">Étude statistique</a></li>
             <li><a href="/prediction">Prédiction</a></li>
             <li><a href="/prediction-data">Prédiction data</a></li>
           </ul>
-        </nav><!-- #nav-menu-container -->
+        </nav>
     </nav>
     <div class="container">
-      <div >
-        <h4  style=" text-align: center;">Prédiction en utilisant les données du formulaire</h4>
+      <br>
+      <div>
+        <h3  style=" text-align: center;">Prédiction en utilisant les données du formulaire</h3>
       </div>
+      <br>
       <div>
         <form action="/predict-form" method="POST" enctype="multipart/form-data">
           <label>erythema</label>
@@ -355,11 +354,7 @@
           <input type="number" name="age">
           <br>
           <div class="form-container">
-            <a href="#" class="template-btn"><input type="submit" value="Valider"></a>
-            <div>
-              <h3>Résultat</h3>
-              <p>{{result}}</p>
-            </div>
+            <a href="#" ><input type="submit" value="Valider"></a>
           </div>
         </form>
       </div>

@@ -33,7 +33,7 @@ app = Flask(__name__)
 bootstrap = Bootstrap(app)
 
 # Charger vos données dans un dataframe
-df = pd.read_csv("server/data/dermatology_csv.csv")
+df = pd.read_csv("data/dermatology_csv.csv")
 # Créer le dictionnaire de correspondance
 correspondance_classes = {
     1: "Psoriasis",
@@ -169,7 +169,7 @@ def generate_graph3():
 
   #-------------------------- SVM ------------------------------------------------------
   # Chemin vers le modèle entraîné
-model_path = "server/model/modelSVM.pkl"
+model_path = "model/modelSVM.pkl"
 # Charger le modèle
 pca, svm = joblib.load(model_path)
 
@@ -233,7 +233,7 @@ def predict_from_form(form_data):
     form_df = pd.DataFrame(form_data, index=[0])
 
     # Charger le modèle de décision tree entraîné
-    decision_tree = joblib.load('server/model/modelDecisionTree.pkl')
+    decision_tree = joblib.load('model/modelDecisionTree.pkl')
 
     # Effectuer les prétraitements sur les données du formulaire (par exemple, encoder les catégories, normaliser les valeurs, etc.)
     # Assurez-vous d'appliquer les mêmes transformations que celles appliquées lors de l'entraînement du modèle
@@ -262,7 +262,7 @@ def generate_graph6():
     maladies = data.get('maladies') # Liste des maladies sélectionnées
     
     # Charger le jeu de données
-    df = pd.read_csv("server/data/dermatology_csv.csv")
+    df = pd.read_csv("data/dermatology_csv.csv")
     
     # Filtrer les maladies sélectionnées
     df = df[df['class'].isin(map(int, maladies))]
@@ -426,7 +426,7 @@ def submit_form():
         formData = request.form
         result =  predict_from_form(formData)
 
-        return render_template('prediction_data.html',result=result)
+        return render_template('resultPredNum.html', result=result)
     return render_template('prediction_data.html')
 
 @app.route('/graph1', methods=['POST'])
