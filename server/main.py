@@ -50,7 +50,7 @@ def generate_graph1():
    # Charger vos données dans un dataframe
     data = request.get_json()
     maladies = data.get('maladies')
-    df = pd.read_csv("data/dermatology_csv.csv")
+    df = pd.read_csv("server/data/dermatology_csv.csv")
     df = df[df['class'].isin(map(int, maladies))]
     type = df["class"].replace(correspondance_classes)
     # Données du graphe
@@ -82,7 +82,7 @@ def generate_graph2():
    # Charger vos données dans un dataframe
     data = request.get_json()
     maladies = data.get('maladies')
-    df = pd.read_csv("data/dermatology_csv.csv")
+    df = pd.read_csv("server/data/dermatology_csv.csv")
     df = df[df['class'].isin(map(int, maladies))]
     df = df.replace({'class': correspondance_classes})
 
@@ -120,7 +120,7 @@ def generate_graph3():
         maladies = data.get('maladies') # Liste des maladies sélectionnées
 
         # Charger le jeu de données
-        df = pd.read_csv("data/dermatology_csv.csv")
+        df = pd.read_csv("server/data/dermatology_csv.csv")
 
         # Filtrer les maladies sélectionnées
         df = df[df['class'].isin(map(int, maladies))]
@@ -190,7 +190,7 @@ def im():
         if file and allowed_file(file.filename):
             # Enregistrer le fichier dans un dossier temporaire
             #mettre vos propre repertoire
-            app.config['UPLOAD_FOLDER'] = 'static/assets/images'
+            app.config['UPLOAD_FOLDER'] = 'C:/Users/chloe/Desktop/PSID'
             temp_path = os.path.join(app.config['UPLOAD_FOLDER'], file.filename)
             file.save(temp_path)
             # Charger l'image et effectuer la prédiction
@@ -226,6 +226,85 @@ def predict_image(image_path):
         print("MALIN")
         return "Catégorie MALIGNE"
 
+
+#-------------------------------------------multi_classe---------------------
+# Chemin vers le modèle entraîné
+model_path = "server/model/modelMulticlasse.pkl"
+svm
+# Charger le modèle
+randomforest = joblib.load(model_path)
+
+@app.route('/predict_tache_peau', methods=['GET', 'POST'])
+def im2():
+    if request.method == 'POST':
+        # Vérifier si un fichier a été téléchargé
+        if 'image' not in request.files:
+            return render_template('Accueil.html', error='Aucun fichier téléchargé.')
+
+        file = request.files['image']
+
+        # Vérifier si le fichier a un nom valide
+        if file.filename == '':
+            return render_template('Accueil.html', error='Aucun fichier sélectionné.')
+
+        # Vérifier si le fichier est une image
+        if file and allowed_file(file.filename):
+            # Enregistrer le fichier dans un dossier temporaire
+            #mettre vos propre repertoire
+            app.config['UPLOAD_FOLDER'] = 'C:/Users/chloe/Desktop/PSID'
+            temp_path = os.path.join(app.config['UPLOAD_FOLDER'], file.filename)
+            file.save(temp_path)
+            # Charger l'image et effectuer la prédiction
+            result = predict_image_tache(temp_path)
+            return render_template('resultPred_tache_peau.html', result=result, image_path=file.filename)
+    return render_template('prediction_tache_peau.html')
+
+
+def predict_image_tache(image_path):
+    # Charger l'image
+    target_size = (64, 64)
+    img = Image.open(image_path)
+    img = img.resize(target_size)
+    img = np.array(img)
+
+    # Aplatir l'image en vecteur de caractéristiques
+
+    # Charger l'image et effectuer la prédiction
+    img_flat = img.reshape(1, -1)
+    img_norm = img_flat / 255.0
+
+    # Effectuer la prédiction
+    prediction = randomforest.predict(img_norm)
+
+    # Renvoyer la prédiction (par exemple, en tant que chaîne de caractères)
+    if prediction == "bcc":
+        print("carcinome basocellulaire")
+        return "Catégorie carcinome basocellulaire"
+
+    elif prediction == "akiec":
+        print("ératoses actiniques et carcinome intra-épithélial")
+        return "Catégorie ératoses actiniques et carcinome intra-épithélial"
+
+    elif prediction == "bkl":
+        print("lésions bénignes de type kératose")
+        return "Catégorie lésions bénignes de type kératose"
+
+    elif prediction == "df":
+        print("dermatofibrome")
+        return "Catégorie dermatofibrome"
+
+    elif prediction == "mel":
+        print("mélanome")
+        return "Catégorie mélanome"
+
+    elif prediction == "nv":
+        print("naevus mélanocytaire")
+        return "Catégorie naevus mélanocytaire"
+    else:
+        print("lésions vasculaires")
+        return "Catégorie lésions vasculaires"
+
+#-----------------------
     # fonction responsable pour la predicition des données numériques
 
 def predict_from_form(form_data):
@@ -304,7 +383,7 @@ def generate_graph4():
     # Charger vos données dans un dataframe
     data = request.get_json()
     maladies = data.get('maladies')
-    df = pd.read_csv("data/dermatology_csv.csv")
+    df = pd.read_csv("server/data/dermatology_csv.csv")
     df = df[df['class'].isin(map(int, maladies))]
 
     # Trouver le nombre de cas avec antécédents familiaux
@@ -346,7 +425,7 @@ def generate_graph5():
     # Charger vos données dans un dataframe
     data = request.get_json()
     maladies = data.get('maladies')
-    df = pd.read_csv("data/dermatology_csv.csv")
+    df = pd.read_csv("server/data/dermatology_csv.csv")
     df = df[df['class'].isin(map(int, maladies))]
 
     # Trouver les pourcentages d'hérédité des maladies sélectionnées
@@ -383,7 +462,7 @@ def generate_graph7():
     maladies = data.get('maladies') # Liste des maladies sélectionnées
 
     # Charger le jeu de données
-    df = pd.read_csv("data/dermatology_csv.csv")
+    df = pd.read_csv("server/data/dermatology_csv.csv")
 
     # Obtenir les symptômes ayant une valeur de 3 pour chaque maladie
     symptomes = []
@@ -478,7 +557,9 @@ def index():
 @app.route('/prediction')
 def form_image():
     return render_template('prediction.html')
-
+@app.route('/prediction-tache-peau')
+def form_image_tache():
+    return render_template('prediction_tache_peau.html')
 @app.route('/statistique')
 def analyse():
     return render_template('statistique.html')
@@ -514,7 +595,7 @@ def upload():
 
     # Enregistrer le fichier sur le serveur
     filename = secure_filename(file.filename)
-    file.save('C:/Users/33766/Desktop/' + filename)
+    file.save('C:/Users/chloe/Desktop/PSID' + filename)
 
     # Retourner une réponse HTTP avec le nom de fichier
     return 'File uploaded successfully', 200
