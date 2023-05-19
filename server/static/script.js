@@ -94,3 +94,27 @@ progressBar.addEventListener("input", function () {
   }
 });
 
+function validateForm() {
+  // Compteur pour suivre le nombre de symptômes sélectionnés
+  let selectedCount = 0;
+
+  // Sélectionnez tous les éléments de sélection de symptômes avec la classe "symptom-select"
+  const symptomSelects = document.querySelectorAll('.symptom-select');
+
+  // Parcourez les éléments sélectionnés et incrémentez le compteur pour chaque symptôme sélectionné
+  symptomSelects.forEach(function(select) {
+    if (select.value !== '0') {
+      selectedCount++;
+    }
+  });
+
+  // Vérifiez si au moins 4 symptômes ont été sélectionnés
+  if (selectedCount >= 4) {
+    // Le formulaire peut être validé
+    return true;
+  } else {
+    // Le formulaire ne peut pas être validé
+    alert('Veuillez sélectionner au moins 4 symptômes !');
+    return false;
+  }
+}

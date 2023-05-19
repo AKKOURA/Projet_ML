@@ -122,86 +122,99 @@ datalist option {
       </div>
       <br>
       <div>
-        <form action="/predict-form" method="POST" enctype="multipart/form-data">
-          <label>erythema</label>
-          <select name="erythema">
-            <option value="0">absent</option>
+        <form action="/predict-form" method="POST" enctype="multipart/form-data" onsubmit="return validateForm()">
+          <label for="progress_erythema">erythema</label>
+          <input type="range" id="progress_erythema" name="erythema" min="0" max="3" step="1" value="0" list="progress_erythema_list"  class="symptom-select">
+          <datalist id="progress_erythema_list">
             <option value="1">pas très présent</option>
             <option value="2">intermédiaire</option>
             <option value="3">beaucoup présent</option>
-          </select>
+          </datalist>
+          <span id="progress_value_erythema"></span>
           <br>
-          <label>scaling</label>
-          <select name="scaling">
-            <option value="0">absent</option>
+          
+          <label for="progress_scaling">scaling</label>
+          <input type="range" id="progress_scaling" name="scaling" min="0" max="3" step="1" value="0" list="progress_scaling_list"  class="symptom-select">
+          <datalist id="progress_scaling_list">
             <option value="1">pas très présent</option>
             <option value="2">intermédiaire</option>
             <option value="3">beaucoup présent</option>
-          </select>
+          </datalist>
+          <span id="progress_value_scaling"></span>
           <br>
-          <label>definite_borders</label>
-          <select name="definite_borders">
-            <option value="0">absent</option>
+          
+          <label for="progress_definite_borders">definite_borders</label>
+          <input type="range" id="progress_definite_borders" name="definite_borders" min="0" max="3" step="1" value="0" list="progress_definite_borders_list"  class="symptom-select">
+          <datalist id="progress_definite_borders_list">
             <option value="1">pas très présent</option>
             <option value="2">intermédiaire</option>
             <option value="3">beaucoup présent</option>
-          </select>
+          </datalist>
+          <span id="progress_value_definite_borders"></span>
           <br>
-          <label>itching</label>
-          <select name="itching">
-            <option value="0">absent</option>
+          
+          <label for="progress_itching">itching</label>
+          <input type="range" id="progress_itching" name="itching" min="0" max="3" step="1" value="0" list="progress_itching_list"  class="symptom-select">
+          <datalist id="progress_itching_list">
             <option value="1">pas très présent</option>
             <option value="2">intermédiaire</option>
             <option value="3">beaucoup présent</option>
-          </select>
+          </datalist>
+          <span id="progress_value_itching"></span>
+          <br> 
+          <label for="progress_koebner_phenomenon">koebner_phenomenon</label>
+          <input type="range" id="progress_koebner_phenomenon" name="koebner_phenomenon" min="0" max="3" step="1" value="0" list="progress_koebner_phenomenon_list"  class="symptom-select">
+          <datalist id="progress_koebner_phenomenon_list">
+            <option value="1">pas très présent</option>
+            <option value="2">intermédiaire</option>
+            <option value="3">beaucoup présent</option>
+          </datalist>
+          <span id="progress_value_koebner_phenomenon"></span>
           <br>
-          <label>koebner_phenomenon</label>
-          <select name="koebner_phenomenon">
-            <option value="0">absent</option>
+          <label for="progress_polygonal_papules">polygonal_papules</label>
+          <input type="range" id="progress_polygonal_papules" name="polygonal_papules" min="0" max="3" step="1" value="0" list="progress_polygonal_papules_list"  class="symptom-select">
+          <datalist id="progress_polygonal_papules_list">
             <option value="1">pas très présent</option>
             <option value="2">intermédiaire</option>
             <option value="3">beaucoup présent</option>
-          </select>
+          </datalist>
+          <span id="progress_value_polygonal_papules"></span>
           <br>
-          <label>polygonal_papules</label>
-          <select name="polygonal_papules">
-            <option value="0">absent</option>
+          <label for="progress_follicular_papules">follicular_papules</label>
+          <input type="range" id="progress_follicular_papules" name="follicular_papules" min="0" max="3" step="1" value="0" list="progress_follicular_papules_list"  class="symptom-select">
+          <datalist id="progress_follicular_papules_list">
             <option value="1">pas très présent</option>
             <option value="2">intermédiaire</option>
             <option value="3">beaucoup présent</option>
-          </select>
+          </datalist>
+          <span id="progress_value_follicular_papules"></span>
           <br>
-          <label>follicular_papules</label>
-          <select name="follicular_papules">
-            <option value="0">absent</option>
+          <label for="progress_oral_mucosal_involvement">follicular_papules</label>
+          <input type="range" id="progress_oral_mucosal_involvement" name="oral_mucosal_involvement" min="0" max="3" step="1" value="0" list="progress_oral_mucosal_involvement_list"  class="symptom-select">
+          <datalist id="progress_oral_mucosal_involvement_list">
             <option value="1">pas très présent</option>
             <option value="2">intermédiaire</option>
             <option value="3">beaucoup présent</option>
-          </select>
+          </datalist>
+          <span id="progress_value_oral_mucosal_involvement"></span>
           <br>
-          <label>oral_mucosal_involvement</label>
-          <select name="oral_mucosal_involvement">
-            <option value="0">absent</option>
+          <label for="progress_knee_and_elbow_involvement">knee_and_elbow_involvement</label>
+          <input type="range" id="progress_knee_and_elbow_involvement" name="knee_and_elbow_involvement" min="0" max="3" step="1" value="0" list="progress_knee_and_elbow_involvement_list"  class="symptom-select">
+          <datalist id="progress_knee_and_elbow_involvement_list">
             <option value="1">pas très présent</option>
             <option value="2">intermédiaire</option>
             <option value="3">beaucoup présent</option>
-          </select>
+          </datalist>
+          <span id="progress_knee_and_elbow_involvement"></span>
           <br>
-          <label>knee_and_elbow_involvement </label>
-          <select name="knee_and_elbow_involvement">
-            <option value="0">absent</option>
+          <label for="progress_scalp_involvement">scalp_involvement</label>
+          <input type="range" id="progress_scalp_involvement" name="scalp_involvement" min="0" max="3" step="1" value="0" list="progress_scalp_involvement_list"  class="symptom-select">
+          <datalist id="progress_scalp_involvement_list">
             <option value="1">pas très présent</option>
             <option value="2">intermédiaire</option>
             <option value="3">beaucoup présent</option>
-          </select>
-          <br>
-          <label>scalp_involvement</label>
-          <select name="scalp_involvement">
-            <option value="0">absent</option>
-            <option value="1">pas très présent</option>
-            <option value="2">intermédiaire</option>
-            <option value="3">beaucoup présent</option>
-          </select>
+          </datalist>
+          <span id="progress_scalp_involvement"></span>
           <br>
           <label>family_history</label>
           <select name="family_history">
@@ -209,186 +222,229 @@ datalist option {
             <option value="1">Non hériditaire</option>
           </select>
           <br>
-          <label>melanin_incontinence </label>
-          <select name="melanin_incontinence">
-            <option value="0">absent</option>
+          <label for="progress_melanin_incontinence">melanin_incontinence</label>
+          <input type="range" id="progress_melanin_incontinence" name="melanin_incontinence" min="0" max="3" step="1" value="0" list="progress_melanin_incontinence_list"  class="symptom-select">
+          <datalist id="progress_melanin_incontinence_list">
+            
             <option value="1">pas très présent</option>
             <option value="2">intermédiaire</option>
             <option value="3">beaucoup présent</option>
-          </select>
+          </datalist>
+          <span id="progress_value_melanin_incontinence"></span>
           <br>
-          <label>eosinophils_in_the_infiltrate</label>
-          <select name="eosinophils_in_the_infiltrate">
-            <option value="0">absent</option>
+          <label for="progress_eosinophils_in_the_infiltrate">eosinophils_in_the_infiltrate</label>
+          <input type="range" id="progress_eosinophils_in_the_infiltrate" name="eosinophils_in_the_infiltrate" min="0" max="3" step="1" value="0" list="progress_eosinophils_in_the_infiltrate_list"  class="symptom-select">
+          <datalist id="progress_eosinophils_in_the_infiltrate_list">
+            
             <option value="1">pas très présent</option>
             <option value="2">intermédiaire</option>
             <option value="3">beaucoup présent</option>
-          </select>
+          </datalist>
+          <span id="progress_value_eosinophils_in_the_infiltrate"></span>
           <br>
-          <label>pnl_infiltrate </label>
-          <select name="pnl_infiltrate">
-            <option value="0">absent</option>
+          <label for="progress_pnl_infiltrate">pnl_infiltrate</label>
+          <input type="range" id="progress_pnl_infiltrate" name="pnl_infiltrate" min="0" max="3" step="1" value="0" list="progress_pnl_infiltrate_list"  class="symptom-select">
+          <datalist id="progress_pnl_infiltrate_list">
+            
             <option value="1">pas très présent</option>
             <option value="2">intermédiaire</option>
             <option value="3">beaucoup présent</option>
-          </select>
+          </datalist>
+          <span id="progress_value_pnl_infiltrate"></span>
           <br>
-          <label>fibrosis_of_the_papillary_dermis</label>
-          <select name="fibrosis_of_the_papillary_dermis">
-            <option value="0">absent</option>
+          <label for="progress_fibrosis_of_the_papillary_dermis">fibrosis_of_the_papillary_dermis</label>
+          <input type="range" id="progress_fibrosis_of_the_papillary_dermis" name="fibrosis_of_the_papillary_dermis" min="0" max="3" step="1" value="0" list="progress_fibrosis_of_the_papillary_dermis_list"  class="symptom-select">
+          <datalist id="progress_fibrosis_of_the_papillary_dermis_list">
+            
             <option value="1">pas très présent</option>
             <option value="2">intermédiaire</option>
             <option value="3">beaucoup présent</option>
-          </select>
+          </datalist>
+          <span id="progress_value_fibrosis_of_the_papillary_dermis"></span>
           <br>
-          <label>exocytosis</label>
-          <select name="exocytosis">
-            <option value="0">absent</option>
+          <label for="progress_exocytosis">exocytosis</label>
+          <input type="range" id="progress_exocytosis" name="exocytosis" min="0" max="3" step="1" value="0" list="progress_exocytosis_list" class="symptom-select">
+          <datalist id="progress_exocytosis_list">
+            
             <option value="1">pas très présent</option>
             <option value="2">intermédiaire</option>
             <option value="3">beaucoup présent</option>
-          </select>
+          </datalist>
+          <span id="progress_value_exocytosis"></span>
           <br>
-          <label>acanthosis </label>
-          <select name="acanthosis">
-            <option value="0">absent</option>
+          <label for="progress_acanthosis">acanthosis</label>
+          <input type="range" id="progress_acanthosis" name="acanthosis" min="0" max="3" step="1" value="0" list="progress_acanthosis_list"  class="symptom-select">
+          <datalist id="progress_acanthosis_list">
+            
             <option value="1">pas très présent</option>
             <option value="2">intermédiaire</option>
             <option value="3">beaucoup présent</option>
-          </select>
+          </datalist>
+          <span id="progress_value_acanthosis"></span>
           <br>
-          <label>hyperkeratosis</label>
-          <select name="hyperkeratosis">
-            <option value="0">absent</option>
+          <label for="progress_hyperkeratosis">hyperkeratosis</label>
+          <input type="range" id="progress_hyperkeratosis" name="hyperkeratosis" min="0" max="3" step="1" value="0" list="progress_hyperkeratosis_list"  class="symptom-select">
+          <datalist id="progress_hyperkeratosis_list">
+            
             <option value="1">pas très présent</option>
             <option value="2">intermédiaire</option>
             <option value="3">beaucoup présent</option>
-          </select>
+          </datalist>
+          <span id="progress_value_hyperkeratosis"></span>
           <br>
-          <label>parakeratosis</label>
-          <select name="parakeratosis">
-            <option value="0">absent</option>
+          <label for="progress_parakeratosis">parakeratosis</label>
+          <input type="range" id="progress_parakeratosis" name="parakeratosis" min="0" max="3" step="1" value="0" list="progress_parakeratosis_list"  class="symptom-select">
+          <datalist id="progress_parakeratosis_list">
+            
             <option value="1">pas très présent</option>
             <option value="2">intermédiaire</option>
             <option value="3">beaucoup présent</option>
-          </select>
+          </datalist>
+          <span id="progress_value_parakeratosis"></span>
           <br>
-          <label>clubbing_of_the_rete_ridges</label>
-          <select name="clubbing_of_the_rete_ridges">
-            <option value="0">absent</option>
+          <label for="progress_clubbing_of_the_rete_ridges">clubbing_of_the_rete_ridges</label>
+          <input type="range" id="progress_clubbing_of_the_rete_ridges" name="clubbing_of_the_rete_ridges" min="0" max="3" step="1" value="0" list="progress_clubbing_of_the_rete_ridges_list"  class="symptom-select">
+          <datalist id="progress_clubbing_of_the_rete_ridges_list">
+            
             <option value="1">pas très présent</option>
             <option value="2">intermédiaire</option>
             <option value="3">beaucoup présent</option>
-          </select>
+          </datalist>
+          <span id="progress_value_clubbing_of_the_rete_ridges"></span>
           <br>
-          <label>elongation_of_the_rete_ridges</label>
-          <select name="elongation_of_the_rete_ridges">
-            <option value="0">absent</option>
+          <label for="progress_elongation_of_the_rete_ridges">elongation_of_the_rete_ridges</label>
+          <input type="range" id="progress_elongation_of_the_rete_ridges" name="elongation_of_the_rete_ridges" min="0" max="3" step="1" value="0" list="progress_elongation_of_the_rete_ridges_list"  class="symptom-select">
+          <datalist id="progress_elongation_of_the_rete_ridges_list">
+            
             <option value="1">pas très présent</option>
             <option value="2">intermédiaire</option>
             <option value="3">beaucoup présent</option>
-          </select>
+          </datalist>
+          <span id="progress_value_elongation_of_the_rete_ridges"></span>
           <br>
-          <label>thinning_of_the_suprapapillary_epidermis </label>
-          <select name="thinning_of_the_suprapapillary_epidermis">
-            <option value="0">absent</option>
+          <label for="progress_thinning_of_the_suprapapillary_epidermis">thinning_of_the_suprapapillary_epidermis</label>
+          <input type="range" id="progress_thinning_of_the_suprapapillary_epidermis" name="thinning_of_the_suprapapillary_epidermis" min="0" max="3" step="1" value="0" list="progress_thinning_of_the_suprapapillary_epidermis_list"  class="symptom-select">
+          <datalist id="progress_thinning_of_the_suprapapillary_epidermis_list">
+            
             <option value="1">pas très présent</option>
             <option value="2">intermédiaire</option>
             <option value="3">beaucoup présent</option>
-          </select>
+          </datalist>
+          <span id="progress_value_thinning_of_the_suprapapillary_epidermis"></span>
           <br>
-          <label>spongiform_pustule </label>
-          <select name="spongiform_pustule">
-            <option value="0">absent</option>
+          <label for="progress_spongiform_pustule">spongiform_pustule</label>
+          <input type="range" id="progress_spongiform_pustule" name="spongiform_pustule" min="0" max="3" step="1" value="0" list="progress_spongiform_pustule_list"  class="symptom-select">
+          <datalist id="progress_spongiform_pustule_list">
+            
             <option value="1">pas très présent</option>
             <option value="2">intermédiaire</option>
             <option value="3">beaucoup présent</option>
-          </select>
+          </datalist>
+          <span id="progress_value_spongiform_pustule"></span>
           <br>
-          <label>munro_microabcess</label>
-          <select name="munro_microabcess">
-            <option value="0">absent</option>
+          <label for="progress_munro_microabcess">munro_microabcess</label>
+          <input type="range" id="progress_munro_microabcess" name="munro_microabcess" min="0" max="3" step="1" value="0" list="progress_munro_microabcess_list"  class="symptom-select">
+          <datalist id="progress_munro_microabcess_list">
+            
             <option value="1">pas très présent</option>
             <option value="2">intermédiaire</option>
             <option value="3">beaucoup présent</option>
-          </select>
+          </datalist>
+          <span id="progress_value_munro_microabcess"></span>
           <br>
-          <label>focal_hypergranulosis</label>
-          <select name="focal_hypergranulosis">
-            <option value="0">absent</option>
+          <label for="progress_focal_hypergranulosis">focal_hypergranulosis</label>
+          <input type="range" id="progress_focal_hypergranulosis" name="focal_hypergranulosis" min="0" max="3" step="1" value="0" list="progress_focal_hypergranulosis_list"  class="symptom-select">
+          <datalist id="progress_focal_hypergranulosis_list">
+            
             <option value="1">pas très présent</option>
             <option value="2">intermédiaire</option>
             <option value="3">beaucoup présent</option>
-          </select>
+          </datalist>
+          <span id="progress_value_focal_hypergranulosis"></span>
           <br>
-          <label>disappearance_of_the_granular_layer</label>
-          <select name="disappearance_of_the_granular_layer">
-            <option value="0">absent</option>
+          <label for="progress_disappearance_of_the_granular_layer">disappearance_of_the_granular_layer</label>
+          <input type="range" id="progress_disappearance_of_the_granular_layer" name="disappearance_of_the_granular_layer" min="0" max="3" step="1" value="0" list="progress_disappearance_of_the_granular_layer_list"  class="symptom-select">
+          <datalist id="progress_disappearance_of_the_granular_layer_list">
+            
             <option value="1">pas très présent</option>
             <option value="2">intermédiaire</option>
             <option value="3">beaucoup présent</option>
-          </select>
+          </datalist>
+          <span id="progress_value_disappearance_of_the_granular_layer"></span>
           <br>
-          <label>vacuolisation_and_damage_of_basal_layer</label>
-          <select name="vacuolisation_and_damage_of_basal_layer">
-            <option value="0">absent</option>
+          <label for="progress_vacuolisation_and_damage_of_basal_layer">vacuolisation_and_damage_of_basal_layer</label>
+          <input type="range" id="progress_vacuolisation_and_damage_of_basal_layer" name="vacuolisation_and_damage_of_basal_layer" min="0" max="3" step="1" value="0" list="progress_vacuolisation_and_damage_of_basal_layer_list"  class="symptom-select">
+          <datalist id="progress_vacuolisation_and_damage_of_basal_layer_list">
+            
             <option value="1">pas très présent</option>
             <option value="2">intermédiaire</option>
             <option value="3">beaucoup présent</option>
-          </select>
+          </datalist>
+          <span id="progress_value_vacuolisation_and_damage_of_basal_layer"></span>
           <br>
-          <label>spongiosis</label>
-          <select name="spongiosis">
-            <option value="0">absent</option>
+          <label for="progress_spongiosis">spongiosis</label>
+          <input type="range" id="progress_spongiosis" name="spongiosis" min="0" max="3" step="1" value="0" list="progress_spongiosis_list"  class="symptom-select">
+          <datalist id="progress_spongiosis_list">
+            
             <option value="1">pas très présent</option>
             <option value="2">intermédiaire</option>
             <option value="3">beaucoup présent</option>
-          </select>
+          </datalist>
+          <span id="progress_value_spongiosis"></span>
           <br>
-          <label>saw-tooth_appearance_of_retes</label>
-          <select name="saw-tooth_appearance_of_retes">
-            <option value="0">absent</option>
+          <label for="progress_saw-tooth_appearance_of_retes">saw-tooth_appearance_of_retes</label>
+          <input type="range" id="progress_interface_inflammation" name="saw-tooth_appearance_of_retes" min="0" max="3" step="1" value="0" list="progress_saw-tooth_appearance_of_retes_list"  class="symptom-select">
+          <datalist id="progress_saw-tooth_appearance_of_retes_list">
+            
             <option value="1">pas très présent</option>
             <option value="2">intermédiaire</option>
             <option value="3">beaucoup présent</option>
-          </select>
+          </datalist>
+          <span id="progress_value_saw-tooth_appearance_of_retes"></span>
           <br>
-          <label>follicular_horn_plug</label>
-          <select name="follicular_horn_plug">
-            <option value="0">absent</option>
+          <label for="progress_follicular_horn_plug">follicular_horn_plug</label>
+          <input type="range" id="follicular_horn_plug" name="follicular_horn_plug" min="0" max="3" step="1" value="0" list="progress_follicular_horn_plug_list"  class="symptom-select">
+          <datalist id="progress_follicular_horn_plug_list">
+            
             <option value="1">pas très présent</option>
             <option value="2">intermédiaire</option>
             <option value="3">beaucoup présent</option>
-          </select>
+          </datalist>
+          <span id="progress_value_follicular_horn_plug"></span>
           <br>
-          <label>perifollicular_parakeratosis</label>
-          <select name="perifollicular_parakeratosis">
-            <option value="0">absent</option>
+          <label for="progress_perifollicular_parakeratosis">perifollicular_parakeratosis</label>
+          <input type="range" id="progress_perifollicular_parakeratosis" name="perifollicular_parakeratosis" min="0" max="3" step="1" value="0" list="progress_perifollicular_parakeratosis_list"  class="symptom-select">
+          <datalist id="progress_perifollicular_parakeratosis_list">
+            
             <option value="1">pas très présent</option>
             <option value="2">intermédiaire</option>
             <option value="3">beaucoup présent</option>
-          </select>
+          </datalist>
+          <span id="progress_value_perifollicular_parakeratosis"></span>
           <br>
-          <label>inflammatory_monoluclear_inflitrate</label>
-          <select name="inflammatory_monoluclear_inflitrate">
-            <option value="0">absent</option>
+          <label for="progress_inflammatory_monoluclear_infliltrate">inflammatory_monoluclear_infliltrate</label>
+          <input type="range" id="progress_inflammatory_monoluclear_infliltrate" name="inflammatory_monoluclear_inflitrate" min="0" max="3" step="1" value="0" list="progress_inflammatory_monoluclear_infliltrate_list"  class="symptom-select">
+          <datalist id="progress_inflammatory_monoluclear_infliltrate_list">
+            
             <option value="1">pas très présent</option>
             <option value="2">intermédiaire</option>
             <option value="3">beaucoup présent</option>
-          </select>
+          </datalist>
+          <span id="progress_value_inflammatory_monoluclear_infliltrate"></span>
           <br>
           <label for="progress_band-like_infiltrate">band-like_infiltrate</label>
-          <input type="range" id="progress_band-like_infiltrate" name="band-like_infiltrate" min="0" max="3" step="1" value="0" list="progress_band-like_infiltrate_list">
+          <input type="range" id="progress_band-like_infiltrate" name="band-like_infiltrate" min="0" max="3" step="1" value="0" list="progress_band-like_infiltrate_list"  class="symptom-select">
           <datalist id="progress_band-like_infiltrate_list">
-       
-            <option value="1">Pas très présent</option>
-            <option value="2">Intermédiaire</option>
-            <option value="3">Beaucoup présent</option>
+            
+            <option value="1">pas très présent</option>
+            <option value="2">intermédiaire</option>
+            <option value="3">beaucoup présent</option>
           </datalist>
           <span id="progress_value_band-like_infiltrate"></span>
+          <br>
           <!-- <br> slider de valeur , a voir les models d'erreur  -->
           <label>age</label>
-          <input type="number" name="age">
+          <input type="number" name="age" style="width: 50%;" required>
           <br>
           <div class="form-container">
             <a href="#" ><input type="submit" value="Valider"></a>
