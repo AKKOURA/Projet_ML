@@ -65,6 +65,41 @@
       input[type="submit"]:hover {
         background-color: #3E8E41;
       }
+      .progress-bar {
+    width: 100%;
+    background-color: #f2f2f2;
+    border-radius: 4px;
+    padding: 1px;
+  }
+
+  .progress-bar .progress {
+    height: 20px;
+    background-color: #4caf50;
+    border-radius: 4px;
+    transition: width 0.5s ease;
+  }
+
+  .progress-bar .progress-label {
+    margin-top: 5px;
+  }
+  /* Personnalisation de la barre de progression */
+input[type="range"] {
+  width: 100%; /* Largeur de la barre de progression */
+}
+
+/* Affichage des valeurs possibles sur la barre */
+datalist {
+  display: flex;
+  justify-content: space-between;
+  padding: 0;
+  list-style: none;
+  margin-top: 10px;
+}
+
+datalist option {
+  flex: 1;
+  text-align: center;
+}
     </style>
 </head>
 <body onload="loadPage()">
@@ -341,15 +376,16 @@
             <option value="3">beaucoup présent</option>
           </select>
           <br>
-          <label>band-like_infiltrate</label>
-          <select name="band-like_infiltrate">
-            <option value="0">absent</option>
-            <option value="1">pas très présent</option>
-            <option value="2">intermédiaire</option>
-            <option value="3">beaucoup présent</option>
-          </select>
-          <br>
-            <br>
+          <label for="progress_band-like_infiltrate">band-like_infiltrate</label>
+          <input type="range" id="progress_band-like_infiltrate" name="band-like_infiltrate" min="0" max="3" step="1" value="0" list="progress_band-like_infiltrate_list">
+          <datalist id="progress_band-like_infiltrate_list">
+       
+            <option value="1">Pas très présent</option>
+            <option value="2">Intermédiaire</option>
+            <option value="3">Beaucoup présent</option>
+          </datalist>
+          <span id="progress_value_band-like_infiltrate"></span>
+          <!-- <br> slider de valeur , a voir les models d'erreur  -->
           <label>age</label>
           <input type="number" name="age">
           <br>

@@ -58,3 +58,39 @@ const graph7Btn = document.getElementById('graph7-btn');
 graph7Btn.addEventListener('click', () => {
   afficherGraphe('7');
 });
+
+function updateProgress() {
+  progressData.forEach(function (data) {
+    var progressBar = document.getElementById("progress_band-like_infiltrate");
+    var progressValue = document.getElementById("progress_value_band-like_infiltrate");
+
+    progressBar.value = data.progress;
+    progressValue.textContent = data.progress;
+  });
+}
+
+// Appelez la fonction updateProgress() pour afficher les barres de progression initiales
+updateProgress();
+
+
+var progressData = [
+  {
+    name: "band-like_infiltrate",
+    progress: 0, // La valeur de progression initiale (0, 1, 2 ou 3)
+  },
+  // Ajoutez d'autres objets de données de progression si nécessaire
+];
+var progressBar = document.getElementById("progress_band-like_infiltrate");
+
+progressBar.addEventListener("input", function () {
+  var value = parseInt(progressBar.value);
+
+  // Vérifiez si la valeur est dans la plage autorisée (0, 1, 2 ou 3)
+  if (value >= 0 && value <= 3) {
+    progressData[0].progress = value;
+    updateProgress();
+  } else {
+    progressBar.value = progressData[0].progress; // Rétablir la valeur précédente si la nouvelle valeur est invalide
+  }
+});
+

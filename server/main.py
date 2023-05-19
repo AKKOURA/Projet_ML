@@ -232,7 +232,7 @@ def predict_from_form(form_data):
     # Charger les données du formulaire dans un DataFrame
     form_df = pd.DataFrame(form_data, index=[0])
 
-    # Charger le modèle de décision tree entraîné
+    # Charger le modèle de decision tree entraîné
     decision_tree = joblib.load('model/modelDecisionTree.pkl')
 
     # Effectuer les prétraitements sur les données du formulaire (par exemple, encoder les catégories, normaliser les valeurs, etc.)
@@ -241,7 +241,7 @@ def predict_from_form(form_data):
     # Effectuer la prédiction
     prediction = decision_tree.predict(form_df)
 
-    # Convertir la prédiction en classe de maladie
+    # Convertir la prédiction en pourcentage d'appartenance pour la maladie prédite
     disease_classes = {
         1: 'Psoriasis',
         2: 'Seborrheic Dermatitis',
@@ -250,11 +250,18 @@ def predict_from_form(form_data):
         5: 'Chronic Dermatitis',
         6: 'Pityriasis Rubra Pilaris'
     }
-    predicted_class = disease_classes[int(prediction[0])]
+    predicted_class = int(prediction[0])
+    predicted_disease = disease_classes[predicted_class]
 
-    print(predicted_class)
-    # Renvoyer la prédiction
-    return predicted_class
+    # Calculer le pourcentage d'appartenance (normaliser la valeur de la prédiction)
+    predicted_percentage = (prediction[0] / len(disease_classes)) * 100
+
+    # Créer une liste avec le pourcentage de la maladie prédite et 0 pour les autres maladies
+    predicted_probabilities = [(disease_classes[i], predicted_percentage if i == predicted_class else 0.0) for i in range(1, len(disease_classes) + 1)]
+
+    # Renvoyer la maladie prédite et les pourcentages d'appartenance
+    return predicted_disease, predicted_probabilities
+
 
 def generate_graph6():
      # Récupérer les données de la requête JSON
@@ -424,9 +431,10 @@ def submit_form():
     if request.method == 'POST':
         # Vérifier si une option a été sélectionnée
         formData = request.form
-        result =  predict_from_form(formData)
+        print(formData)
+        prediction, probabilities = predict_from_form(formData)
 
-        return render_template('resultPredNum.html', result=result)
+        return render_template('resultPredNum.html', resiult=prediction, probabilities=probabilities)   
     return render_template('prediction_data.html')
 
 @app.route('/graph1', methods=['POST'])
