@@ -1,5 +1,5 @@
 # Définir les chemins des dossiers de données
-data_dir = 'server/data/tache_peau/'
+data_dir = 'server/data/data_classe/'
 
 import os
 import numpy as np
@@ -10,6 +10,10 @@ from sklearn.metrics import accuracy_score
 from sklearn.ensemble import RandomForestClassifier
 from sklearn.model_selection import cross_val_score
 import joblib
+from tensorflow.keras.utils import to_categorical
+from tensorflow.keras.models import Sequential
+from tensorflow.keras.layers import Conv2D, MaxPooling2D, Flatten, Dense, Dropout
+import tensorflow as tf
 
 
 # Obtenir une liste des sous-dossiers dans le dossier data_dir
@@ -57,15 +61,29 @@ X_train_norm = X_train_flat / 255.0
 X_test_norm = X_test_flat / 255.0
 
 
-#Déclaration du RandomForest
-randomforest=RandomForestClassifier(n_estimators=40)
-#Entrainement du RandomForest
-randomforest.fit(X_train_norm , y_train)
-#Calcul de la performance du RandomForest en cross-validation
-score = cross_val_score(randomforest, X_test_norm , y_test,cv=10)
-print ("Sur ce jeu de données, le taux de succès en classification moyen de :",score.mean())
-#Calcul de la prédiction du Random Forest pour le jeu de données X
-y_predit=randomforest.predict(X_test_norm )
+
+# Convertir les étiquettes en encodage catégorique
+y_train_cat = to_categorical(y_train, num_classes=7)
+y_test_cat = to_categorical(y_test, num_classes=7)
+
+model = tf.keras.Sequential([
+    Conv2D(100, (3, 3), activation='relu', input_shape=(64, 64, 3)),
+    MaxPooling2D(pool_size=(2, 2)),
+    Conv2D(64, (3, 3), activation='relu'),
+    MaxPooling2D(pool_size=(2, 2)),
+    Dropout(0.22),
+    Conv2D(100, (3, 3), activation='relu'),
+    MaxPooling2D(pool_size=(2, 2)),
+    Flatten(),
+    Dense(1, activation='sigmoid')
+])
+
+model.compile(optimizer='adam',
+              loss='categorical_crossentropy',
+              metrics=['accuracy'])
+
+# Entraîner le modèle
+model.fit(X_train_norm, y_train_cat, epochs=5, validation_data=(X_test_norm, y_test_cat))
 # Sauvegarder le modèle entraîné
 model_path = "server/model/modelMulticlasse.pkl"
-joblib.dump(randomforest, model_path)
+joblib.dump(model, model_path)

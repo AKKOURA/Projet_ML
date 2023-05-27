@@ -169,7 +169,7 @@ def generate_graph3():
 
   #-------------------------- SVM ------------------------------------------------------
   # Chemin vers le modèle entraîné
-model_path = "model/modelSVM.pkl"
+model_path = "model/modelCNN.h5"
 # Charger le modèle
 pca, svm = joblib.load(model_path)
 
